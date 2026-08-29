@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>{{title}}</title>
+  <style>
+    table { border-collapse: collapse; }
+    th, td { border: 1px solid #333; padding: 8px 16px; }
+    .destacado { background-color: #c8f7c5; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Lista de estudiantes</h1>
+  <table>
+    <tr>
+      <th>Nombre</th>
+      <th>Nota</th>
+    </tr>
+    {{#each students}}
+      <tr class="{{#if destacado}}destacado{{/if}}">
+        <td>{{nombre}}</td>
+        <td>{{nota}}</td>
+      </tr>
+    {{/each}}
+  </table>
+</body>
+</html>
