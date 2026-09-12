@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <title>Videojuegos</title>
+  <%- include('partials/head') %>
+</head>
+<body>
+  <%- include('partials/navbar') %>
+
+  <main class="container" style="margin-top: 40px;">
+
+    <div class="game-banner reveal">
+      <img
+        src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=60"
+        alt="Videojuegos"
+        onerror="this.remove();">
+      <h4 class="game-banner-title pixel-font" style="font-size: clamp(0.9rem, 2.5vw, 1.4rem);">
+        <span class="float-icon">🕹️</span> Game Library
+      </h4>
+    </div>
+
+    <h5 class="section-title center-align">
+      <i class="material-icons left">sports_esports</i>Catálogo de Videojuegos
+    </h5>
+
+    <!-- Formulario para crear un nuevo registro -->
+    <div class="card reveal">
+      <div class="card-content">
+        <span class="card-title">
+          <i class="material-icons left accent-text">add_circle</i>Agregar Videojuego
+        </span>
+
+        <form action="/games" method="POST">
+          <div class="row" style="margin-bottom: 0;">
+            <div class="input-field col s12 m6">
+              <i class="material-icons prefix">title</i>
+              <input id="titulo" type="text" name="titulo" required>
+              <label for="titulo">Título</label>
+            </div>
+
+            <div class="input-field col s12 m6">
+              <i class="material-icons prefix">business</i>
+              <input id="desarrollador" type="text" name="desarrollador" required>
+              <label for="desarrollador">Desarrollador</label>
+            </div>
+          </div>
+
+          <div class="row" style="margin-bottom: 0;">
+            <div class="input-field col s12">
+              <i class="material-icons prefix">image</i>
+              <input id="imagen" type="url" name="imagen" placeholder="https://...">
+              <label for="imagen" class="active">URL de la imagen (opcional)</label>
+            </div>
+          </div>
+
+          <div class="row" style="margin-bottom: 0;">
+            <div class="input-field col s12 m4">
+              <select name="genero" id="genero" required>
+                <option value="" disabled selected>Elige un género</option>
+                <option value="Acción">Acción</option>
+                <option value="Aventura">Aventura</option>
+                <option value="RPG">RPG</option>
+                <option value="Deportes">Deportes</option>
+                <option value="Estrategia">Estrategia</option>
+                <option value="Terror">Terror</option>
+                <option value="Simulación">Simulación</option>
+              </select>
+              <label>Género</label>
+            </div>
+
+            <div class="input-field col s12 m4">
+              <select name="plataforma" id="plataforma" required>
+                <option value="" disabled selected>Elige una plataforma</option>
+                <option value="PC">PC</option>
+                <option value="PlayStation">PlayStation</option>
+                <option value="Xbox">Xbox</option>
+                <option value="Nintendo Switch">Nintendo Switch</option>
+                <option value="Móvil">Móvil</option>
+              </select>
+              <label>Plataforma</label>
+            </div>
+
+            <div class="input-field col s12 m4">
+              <i class="material-icons prefix">event</i>
+              <input id="anio" type="number" name="anio" min="1970" max="2100" required>
+              <label for="anio">Año de lanzamiento</label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col s12 m6">
+              <p><i class="material-icons tiny amber-text text-darken-2" style="vertical-align: middle;">star</i> Puntuación: <span id="calif-valor">5</span>/10</p>
+              <p class="range-field">
+                <input type="range" name="calificacion" id="calificacion" min="1" max="10" value="5" oninput="document.getElementById('calif-valor').innerText = this.value">
+              </p>
+            </div>
+          </div>
+
+          <div class="right-align">
+            <button type="submit" class="waves-effect waves-light btn btn-accent">
+              <i class="material-icons left">emoji_events</i>Agregar al catálogo
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Tabla para listar los registros -->
+    <h6 class="section-title" style="margin-top: 30px;">Videojuegos registrados</h6>
+
+    <% if (games.length === 0) { %>
+      <div class="card reveal">
+        <div class="empty-state">
+          <i class="material-icons">videogame_asset_off</i>
+          <p>Aún no hay videojuegos registrados. Usa el formulario para agregar el primero.</p>
+        </div>
+      </div>
+    <% } else { %>
+      <div class="reveal" style="overflow-x: auto;">
+        <table class="striped responsive-table highlight">
+          <thead>
+            <tr>
+              <th>Título</th>
+              <th>Género</th>
+              <th>Plataforma</th>
+              <th>Año</th>
+              <th>Desarrollador</th>
+              <th>Puntuación</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% games.forEach(g => {
+              const score = parseFloat(g.calificacion);
+              const scoreClass = score >= 8 ? 'score-high' : (score >= 5 ? 'score-mid' : 'score-low');
+            %>
+              <tr>
+                <td>
+                  <img class="game-thumb" src="<%= g.imagen %>" alt="<%= g.titulo %>" onerror="this.style.display='none';">
+                  <strong><%= g.titulo %></strong>
+                </td>
+                <td><span class="chip chip-accent"><%= g.genero %></span></td>
+                <td>
+                  <span class="chip platform-chip platform-<%= g.plataforma.replace(' ', '-') %>">
+                    <%= g.plataforma %>
+                  </span>
+                </td>
+                <td><%= g.anio %></td>
+                <td><%= g.desarrollador %></td>
+                <td>
+                  <span class="score-badge <%= scoreClass %>"><%= g.calificacion %></span>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </main>
+
+  <%- include('partials/footer') %>
+  <%- include('partials/scripts') %>
+</body>
+</html>

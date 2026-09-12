@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title><%= title %></title>
+    <%- include('partials/head') %>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+    <main class="container" style="margin-top: 40px;">
+        <div class="card reveal">
+            <div class="card-content">
+                <span class="card-title">
+                    <i class="material-icons left accent-text">info</i>Sobre Nosotros
+                </span>
+                <p>
+                    GameVault es un sitio web desarrollado con <strong>Express</strong>,
+                    <strong>EJS</strong> como motor de vistas y <strong>Materialize CSS</strong>
+                    para el diseño, como parte del laboratorio de la Semana 4 del curso
+                    Desarrollo de Aplicaciones Web Avanzado.
+                </p>
+                <p>
+                    El proyecto integra rutas y controladores organizados por módulo,
+                    un formulario de contacto que guarda mensajes en memoria, un panel
+                    de administración para revisarlos y un catálogo de videojuegos con
+                    su propio formulario de registro y tabla de listado.
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <%- include('partials/footer') %>
+    <%- include('partials/scripts') %>
+</body>
+</html>

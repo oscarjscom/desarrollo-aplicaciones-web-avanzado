@@ -1,0 +1,560 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Archivo+Black&family=Press+Start+2P&display=swap');
+
+:root {
+  --bg: #f4f6f7;
+  --dark: #101114;
+  --dark-2: #1c1e22;
+  --text: #1c1e22;
+  --text-light: #f5f3ee;
+  --muted: #8a8f98;
+  --accent: #ff5a3c;
+  --accent-dark: #e8451f;
+}
+
+* {
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+/* ---------- Navbar ---------- */
+.nav-dark {
+  background-color: var(--dark) !important;
+  box-shadow: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.nav-dark .brand-logo {
+  color: var(--text-light) !important;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.nav-dark .brand-logo i {
+  color: var(--accent);
+}
+
+.nav-dark ul a {
+  color: #cfd3d8 !important;
+  font-weight: 500;
+  font-size: 0.9rem;
+  letter-spacing: 0.3px;
+}
+
+.nav-dark ul a:hover {
+  color: var(--text-light) !important;
+}
+
+.nav-dark ul a i {
+  color: var(--accent);
+}
+
+.nav-dark .sidenav-trigger {
+  color: var(--text-light);
+}
+
+/* ---------- Hero (editorial) ---------- */
+.hero-editorial {
+  background:
+    linear-gradient(180deg, rgba(16, 17, 20, 0.9), rgba(16, 17, 20, 0.97)),
+    url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1600&q=60') center/cover;
+  color: var(--text-light);
+  padding: 70px 24px 90px;
+}
+
+.hero-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 28px;
+}
+
+.eyebrow .pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 5px 14px;
+  border-radius: 999px;
+  color: var(--text-light);
+}
+
+.eyebrow .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: inline-block;
+}
+
+.hero-title {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: clamp(2.6rem, 7.5vw, 5.5rem);
+  line-height: 0.95;
+  text-transform: uppercase;
+  margin: 0 0 24px;
+}
+
+.hero-title .accent-text {
+  color: var(--accent) !important;
+}
+
+.hero-desc {
+  max-width: 540px;
+  font-size: 1.05rem;
+  color: #c7cbd1;
+  margin-bottom: 36px;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+/* ---------- Buttons & accents ---------- */
+.btn-accent {
+  background-color: var(--accent) !important;
+  color: #fff !important;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  border-radius: 4px;
+  box-shadow: none;
+}
+
+.btn-accent:hover {
+  background-color: var(--accent-dark) !important;
+}
+
+.btn-outline-light {
+  background: transparent !important;
+  color: var(--text-light) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.btn-outline-light:hover {
+  border-color: var(--text-light);
+}
+
+.accent-text {
+  color: var(--accent) !important;
+}
+
+.chip-accent {
+  background-color: var(--accent) !important;
+  color: #fff !important;
+}
+
+.badge.new {
+  background-color: var(--accent) !important;
+}
+
+/* ---------- Feature cards ---------- */
+.feature-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  height: 100%;
+  border-radius: 8px;
+}
+
+.feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
+}
+
+.feature-card .card-content {
+  text-align: center;
+}
+
+.feature-card i.material-icons {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  color: var(--accent);
+}
+
+.empty-state {
+  padding: 50px 20px;
+  color: #757575;
+  text-align: center;
+}
+
+.empty-state i.material-icons {
+  font-size: 3rem;
+  color: #b0bec5;
+  margin-bottom: 10px;
+}
+
+/* ---------- Footer ---------- */
+.page-footer-dark {
+  background-color: var(--dark);
+  color: #9aa0a8;
+  margin-top: 40px;
+  padding: 18px 0;
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+.section-title {
+  font-weight: 700;
+  margin-bottom: 25px;
+}
+
+.section-title .material-icons {
+  color: var(--accent);
+}
+
+/* ---------- Pixel / arcade accents ---------- */
+.pixel-font {
+  font-family: 'Press Start 2P', cursive;
+  letter-spacing: 0.5px;
+}
+
+/* ---------- Fluid scroll-reveal ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ---------- Motion keyframes ---------- */
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 90, 60, 0.55); }
+  50% { box-shadow: 0 0 0 8px rgba(255, 90, 60, 0); }
+}
+
+@keyframes shimmer {
+  to { background-position: -200% center; }
+}
+
+.float-icon {
+  display: inline-block;
+  animation: floatY 3s ease-in-out infinite;
+}
+
+.eyebrow .dot {
+  animation: glowPulse 1.8s ease-in-out infinite;
+}
+
+/* Texto con brillo animado, tipo neón de arcade */
+.shimmer-text {
+  background: linear-gradient(90deg, var(--accent) 0%, #fff 20%, var(--accent) 40%, var(--accent) 100%);
+  background-size: 220% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shimmer 3.5s linear infinite;
+}
+
+/* ---------- Interacciones "de videojuego" ---------- */
+.btn-accent,
+.btn-outline-light,
+.waves-effect.btn,
+.waves-effect.btn-large,
+.waves-effect.btn-floating {
+  transition: transform 0.15s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.btn-accent:hover,
+.waves-effect.btn:hover,
+.waves-effect.btn-large:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(255, 90, 60, 0.35);
+}
+
+.btn-accent:active,
+.waves-effect.btn:active,
+.waves-effect.btn-large:active {
+  transform: scale(0.96);
+}
+
+.nav-dark ul a {
+  position: relative;
+}
+
+.nav-dark ul li > a::after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 6px;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+
+.nav-dark ul li > a:hover::after {
+  transform: scaleX(1);
+}
+
+/* ---------- Insignias de puntuación (estilo review de videojuegos) ---------- */
+.score-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.7rem;
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease;
+}
+
+.score-badge:hover {
+  transform: scale(1.1) rotate(-4deg);
+}
+
+.score-high { background: #2e7d32; }
+.score-mid { background: #f9a825; }
+.score-low { background: #c62828; }
+
+/* ---------- Banner / galería de imágenes gamer ---------- */
+.game-banner {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 30px;
+  min-height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--dark), var(--dark-2));
+}
+
+.game-banner img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.55;
+}
+
+.game-banner .game-banner-title {
+  position: relative;
+  color: var(--text-light);
+  text-align: center;
+  padding: 20px;
+  text-transform: uppercase;
+  font-size: clamp(1.1rem, 3vw, 1.8rem);
+}
+
+.genre-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 18px;
+  margin: 30px 0 10px;
+}
+
+.genre-card {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 160px;
+  display: block;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+}
+
+.genre-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+  display: block;
+}
+
+.genre-card:hover img {
+  transform: scale(1.12);
+}
+
+.genre-card .genre-label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 10px 14px;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.75), transparent);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+/* ---------- Carrusel de juegos destacados ---------- */
+.game-carousel {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  height: clamp(220px, 40vw, 420px);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+}
+
+.carousel-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.9s ease;
+}
+
+.carousel-slide.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.carousel-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.02);
+}
+
+.carousel-slide .carousel-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(16, 17, 20, 0.92) 0%, rgba(16, 17, 20, 0.25) 55%, rgba(16, 17, 20, 0.1) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 30px 36px;
+  color: var(--text-light);
+}
+
+.carousel-overlay .carousel-eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.carousel-overlay h3 {
+  font-family: 'Archivo Black', sans-serif;
+  text-transform: uppercase;
+  font-size: clamp(1.4rem, 4vw, 2.4rem);
+  margin: 0 0 10px;
+}
+
+.carousel-overlay .carousel-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.carousel-dots {
+  position: absolute;
+  bottom: 16px;
+  right: 24px;
+  display: flex;
+  gap: 8px;
+  z-index: 2;
+}
+
+.carousel-dots button {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.carousel-dots button.is-active {
+  background: var(--accent);
+  transform: scale(1.3);
+}
+
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(16, 17, 20, 0.55);
+  color: #fff;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+}
+
+.carousel-arrow:hover {
+  background: var(--accent);
+}
+
+.carousel-arrow.prev { left: 16px; }
+.carousel-arrow.next { right: 16px; }
+
+.game-thumb {
+  width: 72px;
+  height: 34px;
+  object-fit: cover;
+  border-radius: 4px;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+/* ---------- Game platform chips ---------- */
+.platform-chip {
+  color: white;
+}
+.platform-PC { background-color: #546e7a; }
+.platform-PlayStation { background-color: #1565c0; }
+.platform-Xbox { background-color: #2e7d32; }
+.platform-Nintendo-Switch { background-color: #e53935; }
+.platform-Movil,
+.platform-Móvil { background-color: #6a1b9a; }

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title><%= title %></title>
+    <%- include('partials/head') %>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+
+    <main>
+        <section class="hero-editorial">
+            <div class="hero-inner">
+                <div class="eyebrow">
+                    <span class="pill"><span class="dot"></span>Catálogo en vivo</span>
+                    <span class="pixel-font" style="font-size: 0.6rem;">GameVault · Lab S04</span>
+                </div>
+
+                <p class="pixel-font reveal" style="font-size: 0.6rem; color: var(--muted); margin-bottom: 12px;">
+                    🕹️ Juegos destacados
+                </p>
+
+                <div class="game-carousel reveal" id="game-carousel">
+                    <% featuredGames.forEach((g, i) => { %>
+                        <div class="carousel-slide <%= i === 0 ? 'is-active' : '' %>">
+                            <img src="<%= g.imagenFondo || g.imagen %>" alt="<%= g.titulo %>" onerror="this.style.display='none';">
+                            <div class="carousel-overlay">
+                                <span class="carousel-eyebrow">#<%= i + 1 %> Destacado · <%= g.genero %></span>
+                                <h3><%= g.titulo %></h3>
+                                <div class="carousel-meta">
+                                    <span class="chip platform-chip platform-<%= g.plataforma.replace(' ', '-') %>"><%= g.plataforma %></span>
+                                    <span class="chip chip-accent"><%= g.anio %></span>
+                                    <% const s = parseFloat(g.calificacion); %>
+                                    <span class="score-badge <%= s >= 8 ? 'score-high' : (s >= 5 ? 'score-mid' : 'score-low') %>"><%= g.calificacion %></span>
+                                </div>
+                            </div>
+                        </div>
+                    <% }) %>
+
+                    <button class="carousel-arrow prev" type="button" aria-label="Anterior">
+                        <i class="material-icons">chevron_left</i>
+                    </button>
+                    <button class="carousel-arrow next" type="button" aria-label="Siguiente">
+                        <i class="material-icons">chevron_right</i>
+                    </button>
+
+                    <div class="carousel-dots">
+                        <% featuredGames.forEach((g, i) => { %>
+                            <button type="button" data-slide="<%= i %>" class="<%= i === 0 ? 'is-active' : '' %>" aria-label="Ir a <%= g.titulo %>"></button>
+                        <% }) %>
+                    </div>
+                </div>
+
+                <h1 class="hero-title" style="margin-top: 44px;">
+                    <span class="float-icon">🎮</span><br>
+                    TU PRÓXIMO<br>
+                    <span class="shimmer-text">JUEGO</span><br>
+                    EMPIEZA AQUÍ
+                </h1>
+
+                <p class="hero-desc">
+                    Registra, organiza y puntúa tu colección de videojuegos. Cada
+                    título queda guardado con género, plataforma, año y calificación —
+                    listo para explorar en un catálogo hecho a medida.
+                </p>
+
+                <div class="hero-actions">
+                    <a href="/games" class="waves-effect waves-light btn-large btn-accent">
+                        Explorar catálogo <i class="material-icons right">arrow_forward</i>
+                    </a>
+                    <a href="/admin" class="waves-effect waves-light btn-large btn-outline-light">
+                        Panel admin
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <div class="container" style="margin-top: 50px;">
+            <h5 class="section-title center-align">Explora el sitio</h5>
+
+            <div class="row">
+                <div class="col s12 m6 l3">
+                    <div class="card feature-card reveal">
+                        <div class="card-content">
+                            <i class="material-icons">info</i>
+                            <span class="card-title">Acerca de</span>
+                            <p>Conoce más sobre este proyecto.</p>
+                        </div>
+                        <div class="card-action center-align">
+                            <a href="/about" class="accent-text">Ver más</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col s12 m6 l3">
+                    <div class="card feature-card reveal reveal-delay-1">
+                        <div class="card-content">
+                            <i class="material-icons">mail</i>
+                            <span class="card-title">Contacto</span>
+                            <p>Envíanos un mensaje.</p>
+                        </div>
+                        <div class="card-action center-align">
+                            <a href="/contact" class="accent-text">Escribir</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col s12 m6 l3">
+                    <div class="card feature-card reveal reveal-delay-2">
+                        <div class="card-content">
+                            <i class="material-icons">admin_panel_settings</i>
+                            <span class="card-title">Admin</span>
+                            <p>Revisa los mensajes recibidos.</p>
+                        </div>
+                        <div class="card-action center-align">
+                            <a href="/admin" class="accent-text">Entrar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col s12 m6 l3">
+                    <div class="card feature-card reveal reveal-delay-3">
+                        <div class="card-content">
+                            <i class="material-icons">videogame_asset</i>
+                            <span class="card-title">Videojuegos</span>
+                            <p>Explora el catálogo de juegos.</p>
+                        </div>
+                        <div class="card-action center-align">
+                            <a href="/games" class="accent-text">Ver catálogo</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h5 class="section-title center-align" style="margin-top: 50px;">Explora por género</h5>
+
+            <div class="genre-strip">
+                <a href="/games" class="genre-card reveal">
+                    <img
+                        src="https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?auto=format&fit=crop&w=500&q=60"
+                        alt="Videojuegos de acción"
+                        onerror="this.parentElement.style.background='linear-gradient(135deg, var(--dark), var(--dark-2))'; this.remove();">
+                    <span class="genre-label pixel-font" style="font-size: 0.6rem;">Acción</span>
+                </a>
+                <a href="/games" class="genre-card reveal reveal-delay-1">
+                    <img
+                        src="https://images.unsplash.com/photo-1580327344181-c1163234e5a0?auto=format&fit=crop&w=500&q=60"
+                        alt="Videojuegos retro / arcade"
+                        onerror="this.parentElement.style.background='linear-gradient(135deg, var(--dark), var(--dark-2))'; this.remove();">
+                    <span class="genre-label pixel-font" style="font-size: 0.6rem;">Retro / Arcade</span>
+                </a>
+                <a href="/games" class="genre-card reveal reveal-delay-2">
+                    <img
+                        src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=500&q=60"
+                        alt="Videojuegos RPG y aventura"
+                        onerror="this.parentElement.style.background='linear-gradient(135deg, var(--dark), var(--dark-2))'; this.remove();">
+                    <span class="genre-label pixel-font" style="font-size: 0.6rem;">RPG / Aventura</span>
+                </a>
+                <a href="/games" class="genre-card reveal reveal-delay-3">
+                    <img
+                        src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=500&q=60"
+                        alt="Videojuegos deportivos"
+                        onerror="this.parentElement.style.background='linear-gradient(135deg, var(--dark), var(--dark-2))'; this.remove();">
+                    <span class="genre-label pixel-font" style="font-size: 0.6rem;">Deportes</span>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <%- include('partials/footer') %>
+    <%- include('partials/scripts') %>
+</body>
+</html>

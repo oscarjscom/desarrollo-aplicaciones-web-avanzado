@@ -1,0 +1,79 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    M.Sidenav.init(document.querySelectorAll('.sidenav'));
+    M.FormSelect.init(document.querySelectorAll('select'));
+
+    // Animación fluida al hacer scroll (estilo videojuego: los elementos "entran" a la vista)
+    var reveals = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window && reveals.length) {
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+
+      reveals.forEach(function (el) { observer.observe(el); });
+    } else {
+      reveals.forEach(function (el) { el.classList.add('is-visible'); });
+    }
+
+    // Carrusel rotativo de juegos destacados
+    var carousel = document.getElementById('game-carousel');
+    if (carousel) {
+      var slides = carousel.querySelectorAll('.carousel-slide');
+      var dots = carousel.querySelectorAll('.carousel-dots button');
+      var current = 0;
+      var timer;
+
+      function goTo(index) {
+        slides[current].classList.remove('is-active');
+        dots[current].classList.remove('is-active');
+        current = (index + slides.length) % slides.length;
+        slides[current].classList.add('is-active');
+        dots[current].classList.add('is-active');
+      }
+
+      function next() { goTo(current + 1); }
+      function prev() { goTo(current - 1); }
+
+      function startAutoplay() {
+        timer = setInterval(next, 4500);
+      }
+
+      function stopAutoplay() {
+        clearInterval(timer);
+      }
+
+      carousel.querySelector('.carousel-arrow.next').addEventListener('click', function () {
+        next();
+        stopAutoplay();
+        startAutoplay();
+      });
+
+      carousel.querySelector('.carousel-arrow.prev').addEventListener('click', function () {
+        prev();
+        stopAutoplay();
+        startAutoplay();
+      });
+
+      dots.forEach(function (dot, i) {
+        dot.addEventListener('click', function () {
+          goTo(i);
+          stopAutoplay();
+          startAutoplay();
+        });
+      });
+
+      carousel.addEventListener('mouseenter', stopAutoplay);
+      carousel.addEventListener('mouseleave', startAutoplay);
+
+      if (slides.length > 1) {
+        startAutoplay();
+      }
+    }
+  });
+</script>
