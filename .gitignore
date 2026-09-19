@@ -1,2 +1,6 @@
 node_modules/
+.env
+.env.*
 semana-04/mi-sitio-express-rediseno/
+semana-04/mi-sitio-express/package.json
+semana-04/mi-sitio-express/package-lock.json

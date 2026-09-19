@@ -30,25 +30,39 @@
           <i class="material-icons left accent-text">add_circle</i>Agregar Videojuego
         </span>
 
+        <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+          <div class="card-panel red lighten-4 red-text text-darken-4">
+            <strong>Revisa lo siguiente:</strong>
+            <ul style="margin: 8px 0 0; padding-left: 20px;">
+              <% errors.forEach(err => { %>
+                <li><%= err %></li>
+              <% }) %>
+            </ul>
+          </div>
+        <% } %>
+
+        <% const old = (typeof locals.old !== 'undefined') ? locals.old : {}; %>
+        <% const anioMaximo = new Date().getFullYear() + 1; %>
+
         <form action="/games" method="POST">
           <div class="row" style="margin-bottom: 0;">
             <div class="input-field col s12 m6">
               <i class="material-icons prefix">title</i>
-              <input id="titulo" type="text" name="titulo" required>
-              <label for="titulo">Título</label>
+              <input id="titulo" type="text" name="titulo" value="<%= old.titulo || '' %>" required minlength="2" maxlength="80">
+              <label for="titulo" class="<%= old.titulo ? 'active' : '' %>">Título</label>
             </div>
 
             <div class="input-field col s12 m6">
               <i class="material-icons prefix">business</i>
-              <input id="desarrollador" type="text" name="desarrollador" required>
-              <label for="desarrollador">Desarrollador</label>
+              <input id="desarrollador" type="text" name="desarrollador" value="<%= old.desarrollador || '' %>" required minlength="2" maxlength="80">
+              <label for="desarrollador" class="<%= old.desarrollador ? 'active' : '' %>">Desarrollador</label>
             </div>
           </div>
 
           <div class="row" style="margin-bottom: 0;">
             <div class="input-field col s12">
               <i class="material-icons prefix">image</i>
-              <input id="imagen" type="url" name="imagen" placeholder="https://...">
+              <input id="imagen" type="url" name="imagen" value="<%= old.imagen || '' %>" placeholder="https://..." pattern="https?://.+">
               <label for="imagen" class="active">URL de la imagen (opcional)</label>
             </div>
           </div>
@@ -56,42 +70,36 @@
           <div class="row" style="margin-bottom: 0;">
             <div class="input-field col s12 m4">
               <select name="genero" id="genero" required>
-                <option value="" disabled selected>Elige un género</option>
-                <option value="Acción">Acción</option>
-                <option value="Aventura">Aventura</option>
-                <option value="RPG">RPG</option>
-                <option value="Deportes">Deportes</option>
-                <option value="Estrategia">Estrategia</option>
-                <option value="Terror">Terror</option>
-                <option value="Simulación">Simulación</option>
+                <option value="" disabled <%= !old.genero ? 'selected' : '' %>>Elige un género</option>
+                <% ["Acción","Aventura","RPG","Deportes","Estrategia","Terror","Simulación"].forEach(op => { %>
+                  <option value="<%= op %>" <%= old.genero === op ? 'selected' : '' %>><%= op %></option>
+                <% }) %>
               </select>
               <label>Género</label>
             </div>
 
             <div class="input-field col s12 m4">
               <select name="plataforma" id="plataforma" required>
-                <option value="" disabled selected>Elige una plataforma</option>
-                <option value="PC">PC</option>
-                <option value="PlayStation">PlayStation</option>
-                <option value="Xbox">Xbox</option>
-                <option value="Nintendo Switch">Nintendo Switch</option>
-                <option value="Móvil">Móvil</option>
+                <option value="" disabled <%= !old.plataforma ? 'selected' : '' %>>Elige una plataforma</option>
+                <% ["PC","PlayStation","Xbox","Nintendo Switch","Móvil"].forEach(op => { %>
+                  <option value="<%= op %>" <%= old.plataforma === op ? 'selected' : '' %>><%= op %></option>
+                <% }) %>
               </select>
               <label>Plataforma</label>
             </div>
 
             <div class="input-field col s12 m4">
               <i class="material-icons prefix">event</i>
-              <input id="anio" type="number" name="anio" min="1970" max="2100" required>
-              <label for="anio">Año de lanzamiento</label>
+              <input id="anio" type="number" name="anio" value="<%= old.anio || '' %>" min="1970" max="<%= anioMaximo %>" required>
+              <label for="anio" class="<%= old.anio ? 'active' : '' %>">Año de lanzamiento</label>
             </div>
           </div>
 
           <div class="row">
             <div class="col s12 m6">
-              <p><i class="material-icons tiny amber-text text-darken-2" style="vertical-align: middle;">star</i> Puntuación: <span id="calif-valor">5</span>/10</p>
+              <p><i class="material-icons tiny amber-text text-darken-2" style="vertical-align: middle;">star</i> Puntuación: <span id="calif-valor"><%= old.calificacion || 5 %></span>/10</p>
               <p class="range-field">
-                <input type="range" name="calificacion" id="calificacion" min="1" max="10" value="5" oninput="document.getElementById('calif-valor').innerText = this.value">
+                <input type="range" name="calificacion" id="calificacion" min="1" max="10" value="<%= old.calificacion || 5 %>" oninput="document.getElementById('calif-valor').innerText = this.value">
               </p>
             </div>
           </div>
