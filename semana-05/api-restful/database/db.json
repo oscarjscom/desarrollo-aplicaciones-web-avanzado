@@ -1,0 +1,108 @@
+{
+  "tickets": [
+    {
+      "id": "088cb0a7-91cc-4f5e-ae8a-a56826e2703d",
+      "title": "Ticket 1",
+      "description": "Prueba",
+      "status": "asignado",
+      "priority": "medium",
+      "assignedUser": "Oscar"
+    },
+    {
+      "id": "01a1883a-a30d-4bab-9191-bb1b464b00c5",
+      "title": "Ticket 2",
+      "description": "Prueba",
+      "status": "nuevo",
+      "priority": "medium",
+      "assignedUser": null
+    },
+    {
+      "id": "60829f14-3d00-4382-9d98-2cac54c72717",
+      "title": "Ticket 3",
+      "description": "Prueba",
+      "status": "nuevo",
+      "priority": "medium",
+      "assignedUser": null
+    },
+    {
+      "id": "b105eeaf-65dd-4b9f-9fc3-4122693eb2da",
+      "title": "Ticket 4",
+      "description": "Prueba",
+      "status": "nuevo",
+      "priority": "medium",
+      "assignedUser": null
+    }
+  ],
+  "notifications": [
+    {
+      "id": "f0393931-959a-477e-af77-43884c7c0c79",
+      "type": "email",
+      "message": "Nuevo ticket creado: Problema 1",
+      "status": "pending",
+      "ticketId": "74dea111-9ab4-477b-ab49-6e82b776d468"
+    },
+    {
+      "id": "4dbf9942-b4b3-42c2-bf26-d7b6c819e565",
+      "type": "email",
+      "message": "El ticket 74dea111-9ab4-477b-ab49-6e82b776d468 fue asignado a Oscar",
+      "status": "pending",
+      "ticketId": "74dea111-9ab4-477b-ab49-6e82b776d468"
+    },
+    {
+      "id": "aa56ab6d-75fd-454b-95b0-d9155ca9e998",
+      "type": "push",
+      "message": "El ticket 74dea111-9ab4-477b-ab49-6e82b776d468 cambió a asignado",
+      "status": "pending",
+      "ticketId": "74dea111-9ab4-477b-ab49-6e82b776d468"
+    },
+    {
+      "id": "552ffd5b-14f1-4843-b240-ee1c4fe2935e",
+      "type": "email",
+      "message": "Nuevo ticket creado: Ticket 1",
+      "status": "pending",
+      "ticketId": "088cb0a7-91cc-4f5e-ae8a-a56826e2703d"
+    },
+    {
+      "id": "e25bff90-c381-44fe-9474-f5a05e263932",
+      "type": "email",
+      "message": "Nuevo ticket creado: Ticket 2",
+      "status": "pending",
+      "ticketId": "01a1883a-a30d-4bab-9191-bb1b464b00c5"
+    },
+    {
+      "id": "32849cd7-948f-4712-866b-353f901dad4c",
+      "type": "email",
+      "message": "Nuevo ticket creado: Ticket 3",
+      "status": "pending",
+      "ticketId": "60829f14-3d00-4382-9d98-2cac54c72717"
+    },
+    {
+      "id": "7004ec0f-4ba4-4963-a88d-7a0de6591ee2",
+      "type": "email",
+      "message": "Nuevo ticket creado: Ticket 4",
+      "status": "pending",
+      "ticketId": "b105eeaf-65dd-4b9f-9fc3-4122693eb2da"
+    },
+    {
+      "id": "81c8ab5b-15b2-4706-a8a4-d25a153975e1",
+      "type": "email",
+      "message": "Nuevo ticket creado: Ticket 5",
+      "status": "pending",
+      "ticketId": "b780feaa-f3fe-40f4-adb3-19796d4d9c6e"
+    },
+    {
+      "id": "466d5c78-3153-48ea-a7ef-1c212a6a448f",
+      "type": "email",
+      "message": "El ticket 088cb0a7-91cc-4f5e-ae8a-a56826e2703d fue asignado a Oscar",
+      "status": "pending",
+      "ticketId": "088cb0a7-91cc-4f5e-ae8a-a56826e2703d"
+    },
+    {
+      "id": "691da9fb-eac7-4aa9-b522-d182c673359e",
+      "type": "push",
+      "message": "El ticket 088cb0a7-91cc-4f5e-ae8a-a56826e2703d cambió a asignado",
+      "status": "pending",
+      "ticketId": "088cb0a7-91cc-4f5e-ae8a-a56826e2703d"
+    }
+  ]
+}
