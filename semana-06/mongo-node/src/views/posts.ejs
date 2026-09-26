@@ -1,60 +1,69 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Social Media - Post</title>
-  <!-- Importar Materialize CSS -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
-  <!-- Iconos de Google -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <title><%= siteName %> · Publicaciones</title>
+  <%- include('partials/head') %>
 </head>
-<body class="grey lighten-4">
+<body>
+  <%- include('partials/navbar', { active: 'posts' }) %>
 
-  <!-- Navbar -->
-  <nav>
-    <div class="nav-wrapper teal">
-      <a href="#!" class="brand-logo center">Social Media</a>
-    </div>
-  </nav>
+  <main class="wrap page" id="contenido">
+    <h1 class="page-title">
+      Publicaciones<span class="count-pill" aria-label="<%= posts.length %> publicaciones"><%= posts.length %></span>
+    </h1>
 
-  <div class="container">
-    <h4 class="center-align">Bienvenido a Social Media</h4>
-
-    <div class="row">
-      <!-- Card del Post -->
-      <div class="col s12 m6 l4">
-        <div class="card">
-          <div class="card-image">
-            <img src="https://media.istockphoto.com/id/627795510/photo/example.jpg?s=612x612&w=0&k=20&c=lpUf5rjPVd6Kl_M6heqC8sUncR4FLmtsRzeYdTr5X_I=" alt="Imagen del post">
-          </div>
-          <div class="card-content">
-            <span class="card-title">Título del Post</span>
-            <p>
-              Este es un ejemplo de contenido del post. Aquí puedes escribir la descripción o texto relacionado.
-            </p>
-            <p>
-              <strong>Hashtags:</strong>
-              <span class="chip">#ejemplo</span>
-              <span class="chip">#social</span>
-              <span class="chip">#media</span>
-              <span class="chip">#práctica</span>
-              <span class="chip">#nodejs</span>
-            </p>
-          </div>
-          <div class="card-action">
-            <div class="right">
-              <a href="#!" class="btn-flat"><i class="material-icons teal-text">edit</i></a>
-              <a href="#!" class="btn-flat"><i class="material-icons red-text">delete</i></a>
-            </div>
-            <span><strong>Autor:</strong> Juan Pérez</span>
-          </div>
-        </div>
+    <% if (posts.length === 0) { %>
+      <div class="empty">
+        <i class="material-icons" aria-hidden="true">forum</i>
+        <h3>Aún no hay publicaciones</h3>
+        <p>Crea la primera con el botón "Nuevo post".</p>
+        <a href="/posts/new" class="lx-btn lx-btn--primary"><i class="material-icons" aria-hidden="true">edit</i>Nuevo post</a>
       </div>
-    </div>
-  </div>
+    <% } else { %>
+      <div class="toolbar-row">
+        <div class="search" role="search">
+          <i class="material-icons" aria-hidden="true">search</i>
+          <input type="search" id="search" class="browser-default lx-input"
+                 placeholder="Buscar por título, autor o hashtag" aria-label="Buscar publicaciones" autocomplete="off">
+        </div>
+        <a href="/posts/new" class="lx-btn lx-btn--primary"><i class="material-icons" aria-hidden="true">add</i>Nuevo post</a>
+      </div>
 
-  <!-- Importar Materialize JS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+      <div class="feed" id="feed">
+        <% posts.forEach((post, i) => { %>
+          <%- include('partials/postCard', { post, actions: true, index: i }) %>
+        <% }) %>
+      </div>
+
+      <div class="empty" id="no-results" role="status" hidden>
+        <i class="material-icons" aria-hidden="true">search_off</i>
+        <h3>Sin resultados</h3>
+        <p>Ninguna publicación coincide con tu búsqueda.</p>
+      </div>
+    <% } %>
+  </main>
+
+  <%- include('partials/footer') %>
+  <%- include('partials/scripts') %>
+
+  <script>
+    // Filtra las tarjetas mientras se escribe en el buscador
+    (function () {
+      var input = document.getElementById("search");
+      if (!input) return;
+      var cards = document.querySelectorAll("#feed .post-card");
+      var empty = document.getElementById("no-results");
+      input.addEventListener("input", function () {
+        var query = input.value.trim().toLowerCase();
+        var visible = 0;
+        cards.forEach(function (card) {
+          var match = card.dataset.search.indexOf(query) !== -1;
+          card.style.display = match ? "" : "none";
+          if (match) visible++;
+        });
+        empty.hidden = visible !== 0;
+      });
+    })();
+  </script>
 </body>
 </html>

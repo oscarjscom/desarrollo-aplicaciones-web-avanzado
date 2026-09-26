@@ -1,26 +1,112 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Social Media - Home</title>
-  <!-- Materialize CSS -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+  <title><%= siteName %> · Inicio</title>
+  <%- include('partials/head') %>
 </head>
-<body class="container center-align" style="margin-top: 80px;">
+<body>
+  <%- include('partials/navbar', { active: 'home' }) %>
 
-  <h2 class="blue-text text-darken-2">Bienvenido a Social Media 🚀</h2>
-  <p class="flow-text">Conéctate, comparte y explora publicaciones</p>
+  <main id="contenido">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="wrap">
+        <div class="hero-text">
+          <span class="label anim" style="--d: 0s"><%= stats.posts %> publicaciones · <%= stats.authors %> autores</span>
+          <h1 class="hero-title anim" style="--d: 0s">Comparte lo que importa</h1>
+          <p class="hero-desc anim" style="--d: 0.2s">
+            Publica tus ideas, etiquétalas con hashtags y descubre lo que escriben los demás.
+            Todo se guarda en MongoDB.
+          </p>
+          <a href="/posts/new" class="cta-link anim" style="--d: 0.4s">
+            Crear publicación <i class="material-icons" aria-hidden="true">north_east</i>
+          </a>
+        </div>
+      </div>
 
-  <div class="row" style="margin-top: 50px;">
-    <div class="col s12 m12">
-      <a href="/posts/" class="btn-large waves-effect waves-light blue darken-2">
-        <i class="material-icons left">image</i> Ver Posts
-      </a>
-    </div>
-  </div>
+      <div class="hero-media anim" style="--d: 0.5s">
+        <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1800&q=70"
+             alt="Pantalla con código de programación en un escritorio oscuro" onerror="this.style.display='none';">
+      </div>
+    </section>
 
-  <!-- Materialize JS + icons -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Lo último -->
+    <section class="section wrap">
+      <span class="label section-label">Publicaciones</span>
+
+      <div class="section-head">
+        <h2 class="reveal">Lo último de la comunidad</h2>
+        <p class="reveal" style="--i: 1">Las publicaciones más recientes de nuestros autores, con sus ideas y hashtags.</p>
+      </div>
+
+      <% if (latest.length === 0) { %>
+        <div class="empty">
+          <i class="material-icons" aria-hidden="true">forum</i>
+          <h3>Todavía no hay publicaciones</h3>
+          <p>Sé la primera persona en compartir algo.</p>
+          <a href="/posts/new" class="lx-btn lx-btn--primary"><i class="material-icons" aria-hidden="true">edit</i>Crear publicación</a>
+        </div>
+      <% } else { %>
+        <div class="feed">
+          <% latest.forEach((post, i) => { %>
+            <%- include('partials/postCard', { post, actions: false, index: i }) %>
+          <% }) %>
+        </div>
+        <p style="margin-top: 32px;"><a href="/posts" class="cta-link">Ver todas las publicaciones <i class="material-icons" aria-hidden="true">north_east</i></a></p>
+      <% } %>
+    </section>
+
+    <!-- Por qué Nodo -->
+    <section class="features wrap">
+      <div>
+        <h2 class="reveal">Un lugar cuidado para tus ideas</h2>
+        <div class="features-media reveal" style="--i: 1">
+          <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1000&q=70"
+               alt="Computadora portátil con código sobre una mesa" loading="lazy" onerror="this.style.display='none';">
+        </div>
+      </div>
+
+      <div class="feature-list">
+        <div class="feature reveal" style="--i: 0">
+          <span class="feature-icon"><i class="material-icons" aria-hidden="true">edit_note</i></span>
+          <div>
+            <h3>Publica con libertad</h3>
+            <p>Escribe un título, tu contenido y tus hashtags, con una vista previa en vivo antes de publicar.</p>
+          </div>
+        </div>
+        <div class="feature reveal" style="--i: 1">
+          <span class="feature-icon"><i class="material-icons" aria-hidden="true">groups</i></span>
+          <div>
+            <h3>Conoce a cada autor</h3>
+            <p>Cada autor tiene su perfil con destacadas, temas, búsqueda y su lista completa de publicaciones.</p>
+          </div>
+        </div>
+        <div class="feature reveal" style="--i: 2">
+          <span class="feature-icon"><i class="material-icons" aria-hidden="true">verified_user</i></span>
+          <div>
+            <h3>Datos protegidos</h3>
+            <p>Las contraseñas nunca se muestran en la aplicación y todo el contenido se valida antes de guardarse.</p>
+          </div>
+        </div>
+        <a href="/authors" class="cta-link reveal" style="--i: 3">Conocer a los autores <i class="material-icons" aria-hidden="true">north_east</i></a>
+      </div>
+    </section>
+
+    <!-- Llamado final -->
+    <section class="cta-band">
+      <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1800&q=70"
+           alt="" aria-hidden="true" loading="lazy" onerror="this.style.display='none';">
+      <div class="wrap">
+        <div class="cta-inner reveal">
+          <h2>Publica tu primera idea hoy</h2>
+          <p>Elige un autor, escribe algo que valga la pena compartir y en segundos aparecerá en la comunidad.</p>
+          <a href="/posts/new" class="lx-btn">Nuevo post <i class="material-icons" aria-hidden="true">north_east</i></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <%- include('partials/footer') %>
+  <%- include('partials/scripts') %>
 </body>
 </html>

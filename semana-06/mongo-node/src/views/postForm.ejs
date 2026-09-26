@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <title><%= siteName %> · <%= isEdit ? "Editar post" : "Nuevo post" %></title>
+  <%- include('partials/head') %>
+</head>
+<body>
+  <%- include('partials/navbar', { active: 'posts' }) %>
+
+  <%
+    const hashtagsValue = Array.isArray(post.hashtags)
+      ? post.hashtags.map(tag => "#" + tag).join(", ")
+      : (post.hashtags || "");
+    const fixedAuthor = isEdit ? authorName(post.user) : "";
+    const hasError = (pattern) => errors.some(e => pattern.test(e));
+    const badAuthor = hasError(/autor/i);
+    const badTitle = hasError(/título/i);
+    const badContent = hasError(/contenido/i);
+    const badImage = hasError(/imagen/i);
+  %>
+
+  <main class="wrap page" id="contenido">
+    <a href="/posts" class="back-link"><i class="material-icons" style="font-size: 18px;" aria-hidden="true">arrow_back</i>Volver a las publicaciones</a>
+    <h1 class="page-title" style="margin-top: 14px;"><%= isEdit ? "Editar post" : "Nuevo post" %></h1>
+
+    <div class="composer">
+      <!-- Formulario -->
+      <div class="panel">
+        <% if (errors.length > 0) { %>
+          <div class="alert-error" role="alert" id="form-errors">
+            <i class="material-icons" aria-hidden="true">error</i>
+            <div>
+              <strong>Revisa lo siguiente:</strong>
+              <ul>
+                <% errors.forEach(err => { %><li><%= err %></li><% }) %>
+              </ul>
+            </div>
+          </div>
+        <% } %>
+
+        <form action="<%= isEdit ? '/posts/' + post._id + '/update' : '/posts' %>" method="POST">
+
+          <% if (isEdit) { %>
+            <div class="field">
+              <span class="lbl">Autor</span>
+              <div class="author-fixed">
+                <span class="avatar" aria-hidden="true"><%= initials(post.user) %></span>
+                <strong><%= fixedAuthor %></strong>
+              </div>
+            </div>
+          <% } else { %>
+            <div class="field">
+              <label class="lbl" for="userId">Autor</label>
+              <select name="userId" id="userId" class="browser-default lx-input <%= badAuthor ? 'is-invalid' : '' %>"
+                      required <%- badAuthor ? 'aria-invalid="true" aria-describedby="form-errors"' : '' %>>
+                <option value="" disabled <%= !post.userId ? "selected" : "" %>>Elige un autor</option>
+                <% authors.forEach(author => { %>
+                  <option value="<%= author._id %>" <%= String(author._id) === String(post.userId) ? "selected" : "" %>>
+                    <%= author.name %> <%= author.lastName %> (<%= author.email %>)
+                  </option>
+                <% }) %>
+              </select>
+            </div>
+          <% } %>
+
+          <div class="field">
+            <label class="lbl" for="title">Título</label>
+            <input id="title" type="text" name="title" value="<%= post.title || '' %>"
+                   class="browser-default lx-input <%= badTitle ? 'is-invalid' : '' %>"
+                   required minlength="5" maxlength="30" placeholder="Un título claro y corto"
+                   <%- badTitle ? 'aria-invalid="true" aria-describedby="form-errors"' : '' %>>
+            <div class="hint"><span>Entre 5 y 30 caracteres</span><span id="title-count" aria-live="polite">0/30</span></div>
+          </div>
+
+          <div class="field">
+            <label class="lbl" for="content">Contenido</label>
+            <textarea id="content" name="content" class="browser-default lx-input <%= badContent ? 'is-invalid' : '' %>"
+                      required minlength="10" placeholder="¿Qué quieres compartir?"
+                      <%- badContent ? 'aria-invalid="true" aria-describedby="form-errors"' : '' %>><%= post.content || "" %></textarea>
+            <div class="hint"><span>Mínimo 10 caracteres</span></div>
+          </div>
+
+          <div class="field">
+            <label class="lbl" for="hashtags">Hashtags</label>
+            <input id="hashtags" type="text" name="hashtags" value="<%= hashtagsValue %>"
+                   class="browser-default lx-input" placeholder="#node, #mongo, #express">
+            <div class="hint"><span>Sepáralos con comas</span></div>
+          </div>
+
+          <div class="field">
+            <label class="lbl" for="imageUrl">URL de la imagen (opcional)</label>
+            <input id="imageUrl" type="url" name="imageUrl" value="<%= post.imageUrl || '' %>"
+                   class="browser-default lx-input <%= badImage ? 'is-invalid' : '' %>" placeholder="https://..."
+                   <%- badImage ? 'aria-invalid="true" aria-describedby="form-errors"' : '' %>>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="lx-btn lx-btn--primary">
+              <i class="material-icons" aria-hidden="true">save</i><%= isEdit ? "Guardar cambios" : "Publicar" %>
+            </button>
+            <a href="/posts" class="lx-btn">Cancelar</a>
+          </div>
+        </form>
+      </div>
+
+      <!-- Vista previa en vivo -->
+      <aside class="preview-col" aria-label="Vista previa">
+        <div class="preview-label"><i class="material-icons" style="font-size: 18px;" aria-hidden="true">visibility</i>Vista previa</div>
+        <article class="post-card" style="transform: none;">
+          <div class="post-cover" id="pv-cover" hidden><img id="pv-img" alt="Vista previa de la imagen"></div>
+          <div class="post-body">
+            <div class="post-author">
+              <span class="avatar" id="pv-avatar" aria-hidden="true">?</span>
+              <div>
+                <strong id="pv-author" data-fixed="<%= fixedAuthor %>">Elige un autor</strong>
+                <small>Así se verá tu publicación</small>
+              </div>
+            </div>
+            <h3 class="post-title" id="pv-title">Título de tu publicación</h3>
+            <p class="post-content" id="pv-content">Aquí verás cómo queda el contenido mientras lo escribes.</p>
+            <div class="tags" id="pv-tags"></div>
+          </div>
+        </article>
+      </aside>
+    </div>
+  </main>
+
+  <%- include('partials/footer') %>
+  <%- include('partials/scripts') %>
+
+  <script>
+    (function () {
+      var $ = function (id) { return document.getElementById(id); };
+      var placeholders = {
+        title: "Título de tu publicación",
+        content: "Aquí verás cómo queda el contenido mientras lo escribes."
+      };
+
+      function currentAuthor() {
+        var fixed = $("pv-author").dataset.fixed;
+        if (fixed) return fixed;
+        var select = $("userId");
+        if (!select || !select.value) return "";
+        return select.options[select.selectedIndex].text.split("(")[0].trim();
+      }
+
+      function render() {
+        $("pv-title").textContent = $("title").value.trim() || placeholders.title;
+        $("title-count").textContent = $("title").value.length + "/30";
+        $("pv-content").textContent = $("content").value.trim() || placeholders.content;
+
+        var tags = $("hashtags").value.split(/[\s,]+/)
+          .map(function (t) { return t.replace(/^#+/, "").trim(); })
+          .filter(Boolean);
+        $("pv-tags").innerHTML = "";
+        tags.forEach(function (tag) {
+          var span = document.createElement("span");
+          span.className = "tag";
+          span.textContent = "#" + tag;
+          $("pv-tags").appendChild(span);
+        });
+
+        var url = $("imageUrl").value.trim();
+        if (/^https?:\/\/.+/i.test(url)) {
+          $("pv-img").src = url;
+          $("pv-cover").hidden = false;
+        } else {
+          $("pv-cover").hidden = true;
+        }
+
+        var name = currentAuthor();
+        $("pv-author").textContent = name || "Elige un autor";
+        $("pv-avatar").textContent = name.split(" ").filter(Boolean).slice(0, 2)
+          .map(function (w) { return w[0]; }).join("").toUpperCase() || "?";
+      }
+
+      $("pv-img").addEventListener("error", function () { $("pv-cover").hidden = true; });
+      ["title", "content", "hashtags", "imageUrl", "userId"].forEach(function (id) {
+        var el = $(id);
+        if (!el) return;
+        el.addEventListener("input", render);
+        el.addEventListener("change", render);
+      });
+      render();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <title><%= siteName %> · Autores</title>
+  <%- include('partials/head') %>
+</head>
+<body>
+  <%- include('partials/navbar', { active: 'authors' }) %>
+
+  <main class="wrap page" id="contenido">
+    <h1 class="page-title">
+      Autores<span class="count-pill" aria-label="<%= authors.length %> autores"><%= authors.length %></span>
+    </h1>
+
+    <% if (authors.length === 0) { %>
+      <div class="empty">
+        <i class="material-icons" aria-hidden="true">group</i>
+        <h3>Todavía no hay autores</h3>
+        <p>Cuando se registre el primer usuario aparecerá aquí.</p>
+      </div>
+    <% } else { %>
+      <div class="authors-grid">
+        <% authors.forEach(item => { %>
+          <article class="panel author-card reveal">
+            <div class="avatar-ring"><span class="avatar avatar--lg" aria-hidden="true"><%= initials(item.user) %></span></div>
+            <h3><a href="/authors/<%= item.user._id %>"><%= authorName(item.user) %></a></h3>
+            <p><%= item.postCount %> <%= item.postCount === 1 ? "publicación" : "publicaciones" %></p>
+            <a href="/authors/<%= item.user._id %>" class="lx-btn">Ver perfil<i class="material-icons" aria-hidden="true">arrow_forward</i></a>
+          </article>
+        <% }) %>
+      </div>
+    <% } %>
+  </main>
+
+  <%- include('partials/footer') %>
+  <%- include('partials/scripts') %>
+</body>
+</html>

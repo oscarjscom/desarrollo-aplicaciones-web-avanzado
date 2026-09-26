@@ -1,0 +1,49 @@
+<%
+  const showActions = typeof actions !== "undefined" && actions;
+  const step = typeof index !== "undefined" ? index % 3 : 0;
+  const name = authorName(post.user);
+  const tags = post.hashtags || [];
+%>
+<article class="post-card reveal" style="--i: <%= step %>" data-search="<%= [post.title, post.content, tags.join(' '), name].join(' ').toLowerCase() %>">
+  <% if (post.imageUrl) { %>
+    <div class="post-cover">
+      <img src="<%= post.imageUrl %>" alt="Imagen del post" loading="lazy" onerror="this.parentElement.remove();">
+    </div>
+  <% } %>
+
+  <div class="post-body">
+    <div class="post-author">
+      <span class="avatar" aria-hidden="true"><%= initials(post.user) %></span>
+      <div>
+        <strong>
+          <% if (post.user) { %><a href="/authors/<%= post.user._id %>"><%= name %></a><% } else { %><%= name %><% } %>
+        </strong>
+        <small>
+          Publicado: <%= formatDate(post.createdAt) %>
+          <% if (post.updatedAt) { %> · Editado: <%= formatDate(post.updatedAt) %><% } %>
+        </small>
+      </div>
+    </div>
+
+    <h3 class="post-title"><%= post.title %></h3>
+    <p class="post-content"><%= post.content %></p>
+
+    <% if (tags.length > 0) { %>
+      <div class="tags">
+        <% tags.forEach(tag => { %><span class="tag">#<%= tag %></span><% }) %>
+      </div>
+    <% } %>
+  </div>
+
+  <% if (showActions) { %>
+    <div class="post-actions">
+      <span></span>
+      <div class="icons">
+        <a href="/posts/<%= post._id %>/edit" class="icon-btn" title="Editar" aria-label="Editar <%= post.title %>"><i class="material-icons" aria-hidden="true">edit</i></a>
+        <form action="/posts/<%= post._id %>/delete" method="POST" onsubmit="return confirm('¿Eliminar este post?');">
+          <button type="submit" class="icon-btn" title="Eliminar" aria-label="Eliminar <%= post.title %>"><i class="material-icons" aria-hidden="true">delete</i></button>
+        </form>
+      </div>
+    </div>
+  <% } %>
+</article>

@@ -8,6 +8,8 @@ dotenv.config(); // carga las variables desde .env
 //rutas
 import homeRoutes from "./src/routes/home.routes.js";
 import postRoutes from "./src/routes/post.routes.js";
+import authorRoutes from "./src/routes/author.routes.js";
+import * as viewHelpers from "./src/utils/viewHelpers.js";
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -15,6 +17,10 @@ const __dirname = path.dirname(__filename);
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "src", "views"));
+
+// Variables y funciones disponibles en todas las vistas
+app.locals.siteName = "Nodo"; // nombre del sitio: se cambia solo aquí
+Object.assign(app.locals, viewHelpers);
 
 // Middlewares
 app.use(express.urlencoded({ extended: true })); // Para leer datos de formularios
@@ -24,6 +30,7 @@ app.use(express.static(path.join(__dirname, "src", "public"))); // Archivos est�
 // Rutas
 app.use("/", homeRoutes);
 app.use("/posts", postRoutes);
+app.use("/authors", authorRoutes);
 
 connectDB(); //Conexión a la base de datos
 

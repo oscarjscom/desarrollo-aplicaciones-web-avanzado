@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <title><%= siteName %> · Error</title>
+  <%- include('partials/head') %>
+</head>
+<body>
+  <%- include('partials/navbar', { active: '' }) %>
+
+  <main class="wrap error-page" id="contenido">
+    <i class="material-icons" aria-hidden="true">error_outline</i>
+    <h1 role="alert"><%= message %></h1>
+    <a href="/posts" class="lx-btn lx-btn--primary"><i class="material-icons" aria-hidden="true">arrow_back</i>Volver a las publicaciones</a>
+  </main>
+
+  <%- include('partials/footer') %>
+  <%- include('partials/scripts') %>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<%
+  const current = typeof active !== "undefined" ? active : "";
+%>
+<div class="grain" aria-hidden="true"></div>
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="/" class="brand"><%= siteName %></a>
+
+    <nav class="site-nav" aria-label="Principal">
+      <a href="/" class="lx-link" <%- current === 'home' ? 'aria-current="page"' : '' %>>Inicio</a>
+      <a href="/posts" class="lx-link" <%- current === 'posts' ? 'aria-current="page"' : '' %>>Publicaciones</a>
+      <a href="/authors" class="lx-link" <%- current === 'authors' ? 'aria-current="page"' : '' %>>Autores</a>
+    </nav>
+
+    <a href="/posts/new" class="lx-btn" aria-label="Nuevo post">Nuevo post</a>
+
+    <button type="button" class="icon-btn menu-toggle" id="menu-open" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-menu">
+      <i class="material-icons" aria-hidden="true">menu</i>
+    </button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobile-menu" role="dialog" aria-label="Menú">
+  <button type="button" class="icon-btn close" id="menu-close" aria-label="Cerrar menú">
+    <i class="material-icons" aria-hidden="true">close</i>
+  </button>
+  <a href="/">Inicio</a>
+  <a href="/posts">Publicaciones</a>
+  <a href="/authors">Autores</a>
+  <a href="/posts/new">Nuevo post</a>
+</div>

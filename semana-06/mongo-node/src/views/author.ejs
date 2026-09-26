@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <title><%= siteName %> · <%= authorName(author) %></title>
+  <%- include('partials/head') %>
+</head>
+<body>
+  <%- include('partials/navbar', { active: 'authors' }) %>
+
+  <%
+    const plural = (n, one, many) => (n === 1 ? one : many);
+    const topNames = topics.slice(0, 3).map((t) => "#" + t.name);
+    const topText = topNames.length > 1
+      ? topNames.slice(0, -1).join(", ") + " y " + topNames[topNames.length - 1]
+      : (topNames[0] || "");
+    const base = "/authors/" + author._id;
+    // Construye la URL conservando la búsqueda y el tema (sin valores vacíos)
+    const url = (extra) => {
+      const params = Object.entries(Object.assign({ q: filters.q, tema: filters.tema }, extra))
+        .filter(([key, value]) => value !== "" && value != null && !(key === "page" && Number(value) === 1));
+      return base + (params.length ? "?" + new URLSearchParams(params).toString() : "") + "#publicaciones";
+    };
+    const maxCount = topics.length ? topics[0].count : 1;
+    const memberLabel = new Date(memberSince).toLocaleDateString("es-PE", { month: "long", year: "numeric" });
+    const isFiltering = Boolean(filters.q || filters.tema);
+  %>
+
+  <main class="wrap page" id="contenido">
+    <a href="/authors" class="back-link"><i class="material-icons" style="font-size: 18px;" aria-hidden="true">arrow_back</i>Todos los autores</a>
+
+    <!-- 1. Cabecera del autor -->
+    <section class="panel profile reveal" aria-labelledby="author-name" style="margin-top: 20px;">
+      <div class="avatar-ring"><span class="avatar avatar--xl" aria-hidden="true"><%= initials(author) %></span></div>
+      <div>
+        <span class="eyebrow"><i class="material-icons" aria-hidden="true">person</i>Perfil de autor</span>
+        <h1 id="author-name" style="margin-top: 16px;"><%= authorName(author) %></h1>
+        <p class="role">Autor en <%= siteName %></p>
+
+        <% if (stats.posts > 0) { %>
+          <p class="bio">
+            <%= author.name %> ha publicado <%= stats.posts %> <%= plural(stats.posts, "publicación", "publicaciones") %>
+            <% if (topText) { %>sobre <%= topText %><% } %>.
+          </p>
+        <% } else { %>
+          <p class="bio"><%= author.name %> todavía no ha publicado nada.</p>
+        <% } %>
+        <p class="bio">Forma parte de la comunidad desde <%= memberLabel %>.</p>
+
+        <div class="profile-actions">
+          <a class="lx-btn lx-btn--primary" href="mailto:<%= author.email %>"><i class="material-icons" aria-hidden="true">mail</i>Contactar por correo</a>
+          <% if (author.phoneNumber) { %>
+            <a class="lx-btn" href="tel:<%= author.phoneNumber.replace(/\s+/g, '') %>"><i class="material-icons" aria-hidden="true">call</i><%= author.phoneNumber %></a>
+          <% } %>
+        </div>
+
+        <div class="stats">
+          <div class="stat"><strong><%= stats.posts %></strong><span><%= plural(stats.posts, "publicación", "publicaciones") %></span></div>
+          <div class="stat"><strong><%= stats.topics %></strong><span><%= plural(stats.topics, "tema", "temas") %></span></div>
+          <div class="stat"><strong><%= stats.minutes %></strong><span>min de lectura en total</span></div>
+          <div class="stat"><strong style="font-size: 1.15rem;"><%= memberLabel %></strong><span>miembro desde</span></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="layout" style="margin-top: 48px;">
+      <div>
+        <!-- 2. Publicaciones destacadas -->
+        <% if (featured.length > 0) { %>
+          <section aria-labelledby="destacadas">
+            <h2 id="destacadas" style="margin-bottom: 24px;">Publicaciones destacadas</h2>
+            <div class="featured">
+              <% featured.forEach(item => { %>
+                <article class="panel reveal">
+                  <span class="badge"><i class="material-icons" aria-hidden="true">star</i><%= item.reason %></span>
+                  <h3><%= item.post.title %></h3>
+                  <p style="color: var(--muted);"><%= excerpt(item.post.content, 140) %></p>
+                  <p class="meta"><%= formatDate(item.post.createdAt) %> · <%= readTime(item.post) %> min de lectura</p>
+                </article>
+              <% }) %>
+            </div>
+          </section>
+        <% } %>
+
+        <!-- 4. Temas sobre los que escribe -->
+        <% if (topics.length > 0) { %>
+          <section class="block" aria-labelledby="temas">
+            <h2 id="temas">Temas sobre los que escribe <%= author.name %></h2>
+            <div class="panel">
+              <% topics.forEach(topic => { %>
+                <div class="topic">
+                  <a href="<%= url({ tema: topic.name, page: 1 }) %>" <%- filters.tema === topic.name ? 'aria-current="true"' : '' %>>#<%= topic.name %></a>
+                  <div class="bar" role="img" aria-label="<%= topic.count %> de <%= stats.posts %> publicaciones"><span style="width: <%= Math.round((topic.count / maxCount) * 100) %>%;"></span></div>
+                  <b><%= topic.count %></b>
+                </div>
+              <% }) %>
+            </div>
+          </section>
+        <% } %>
+
+        <!-- 3. Todas las publicaciones -->
+        <section class="block" id="publicaciones" aria-labelledby="todas">
+          <h2 id="todas">Todas las publicaciones de <%= author.name %></h2>
+
+          <% if (stats.posts === 0) { %>
+            <div class="empty" style="margin-top: 24px;">
+              <i class="material-icons" aria-hidden="true">edit_off</i>
+              <h3>Sin publicaciones todavía</h3>
+              <p>Cuando <%= author.name %> publique algo, lo verás aquí.</p>
+              <a href="/posts/new" class="lx-btn lx-btn--primary"><i class="material-icons" aria-hidden="true">edit</i>Crear publicación</a>
+            </div>
+          <% } else { %>
+            <div class="toolbar" style="margin-top: 24px;">
+              <form method="get" action="<%= base %>#publicaciones" role="search">
+                <div class="search" style="max-width: none;">
+                  <i class="material-icons" aria-hidden="true">search</i>
+                  <input type="search" name="q" value="<%= filters.q %>" class="browser-default lx-input"
+                         placeholder="Buscar en sus publicaciones" aria-label="Buscar en las publicaciones de <%= author.name %>">
+                </div>
+                <% if (filters.tema) { %><input type="hidden" name="tema" value="<%= filters.tema %>"><% } %>
+              </form>
+              <span role="status" style="color: var(--muted); font-size: 0.9rem;">
+                <%= pagination.total %> <%= plural(pagination.total, "resultado", "resultados") %>
+              </span>
+            </div>
+
+            <% if (topics.length > 0) { %>
+              <div class="filters" aria-label="Filtrar por tema">
+                <a class="lx-link" href="<%= url({ tema: '', page: 1 }) %>" <%- !filters.tema ? 'aria-current="true"' : '' %>>Todas</a>
+                <% topics.forEach(topic => { %>
+                  <a class="lx-link" href="<%= url({ tema: topic.name, page: 1 }) %>" <%- filters.tema === topic.name ? 'aria-current="true"' : '' %>>#<%= topic.name %></a>
+                <% }) %>
+              </div>
+            <% } %>
+
+            <% if (groups.length === 0) { %>
+              <div class="empty">
+                <i class="material-icons" aria-hidden="true">search_off</i>
+                <h3>Sin resultados</h3>
+                <p>Ninguna publicación coincide con tu búsqueda.</p>
+                <a href="<%= base %>#publicaciones" class="lx-btn">Quitar filtros</a>
+              </div>
+            <% } %>
+
+            <% groups.forEach(group => { %>
+              <h3 class="month"><%= group.label %></h3>
+              <% group.posts.forEach(post => {
+                   const tags = post.hashtags || []; %>
+                <article class="row-post">
+                  <time datetime="<%= post.createdAt ? new Date(post.createdAt).toISOString() : '' %>"><%= formatDate(post.createdAt) %></time>
+                  <div>
+                    <h3><%= post.title %></h3>
+                    <div class="row-meta">
+                      <% if (tags[0]) { %><a class="tag" href="<%= url({ tema: tags[0], page: 1 }) %>">#<%= tags[0] %></a><% } %>
+                      <span><%= readTime(post) %> min de lectura</span>
+                    </div>
+                  </div>
+                  <a href="/posts/<%= post._id %>/edit" class="icon-btn" title="Editar" aria-label="Editar <%= post.title %>"><i class="material-icons" aria-hidden="true">edit</i></a>
+                  <p class="excerpt"><%= excerpt(post.content) %></p>
+                </article>
+              <% }) %>
+            <% }) %>
+
+            <!-- 7. Paginación numerada -->
+            <% if (pagination.totalPages > 1) { %>
+              <div class="pager" role="navigation" aria-label="Paginación">
+                <% if (pagination.page > 1) { %>
+                  <a href="<%= url({ page: pagination.page - 1 }) %>" aria-label="Página anterior"><i class="material-icons" aria-hidden="true">chevron_left</i></a>
+                <% } else { %>
+                  <span aria-disabled="true" aria-label="Página anterior"><i class="material-icons" aria-hidden="true">chevron_left</i></span>
+                <% } %>
+
+                <% for (let n = 1; n <= pagination.totalPages; n++) { %>
+                  <% if (n === pagination.page) { %>
+                    <span aria-current="page" aria-label="Página <%= n %>, actual"><%= n %></span>
+                  <% } else { %>
+                    <a href="<%= url({ page: n }) %>" aria-label="Ir a la página <%= n %>"><%= n %></a>
+                  <% } %>
+                <% } %>
+
+                <% if (pagination.page < pagination.totalPages) { %>
+                  <a href="<%= url({ page: pagination.page + 1 }) %>" aria-label="Página siguiente"><i class="material-icons" aria-hidden="true">chevron_right</i></a>
+                <% } else { %>
+                  <span aria-disabled="true" aria-label="Página siguiente"><i class="material-icons" aria-hidden="true">chevron_right</i></span>
+                <% } %>
+              </div>
+            <% } %>
+          <% } %>
+        </section>
+      </div>
+
+      <!-- 8. Barra lateral: otros autores -->
+      <aside class="sidebar panel" aria-labelledby="otros">
+        <h3 id="otros">Otros autores</h3>
+        <% if (others.length === 0) { %>
+          <p style="color: var(--muted);">No hay más autores todavía.</p>
+        <% } else { %>
+          <div class="search" style="max-width: none; margin-bottom: 14px;" role="search">
+            <i class="material-icons" aria-hidden="true">search</i>
+            <input type="search" id="author-search" class="browser-default lx-input" placeholder="Buscar autor" aria-label="Buscar autor" autocomplete="off">
+          </div>
+          <ul id="author-list">
+            <% others.forEach(item => { %>
+              <li data-name="<%= authorName(item.user).toLowerCase() %>">
+                <a class="mini-author" href="/authors/<%= item.user._id %>">
+                  <span class="avatar" aria-hidden="true"><%= initials(item.user) %></span>
+                  <span>
+                    <strong><%= authorName(item.user) %></strong>
+                    <small><%= item.postCount %> <%= plural(item.postCount, "publicación", "publicaciones") %></small>
+                  </span>
+                </a>
+              </li>
+            <% }) %>
+          </ul>
+          <p id="no-authors" role="status" style="color: var(--muted);" hidden>Ningún autor coincide.</p>
+        <% } %>
+        <a href="/authors" class="lx-btn" style="width: 100%; margin-top: 18px;">Ver todos los autores</a>
+      </aside>
+    </div>
+  </main>
+
+  <%- include('partials/footer') %>
+  <%- include('partials/scripts') %>
+
+  <script>
+    // Busca entre los otros autores mientras se escribe
+    (function () {
+      var input = document.getElementById("author-search");
+      if (!input) return;
+      var items = document.querySelectorAll("#author-list li");
+      var empty = document.getElementById("no-authors");
+      input.addEventListener("input", function () {
+        var query = input.value.trim().toLowerCase();
+        var visible = 0;
+        items.forEach(function (li) {
+          var match = li.dataset.name.indexOf(query) !== -1;
+          li.style.display = match ? "" : "none";
+          if (match) visible++;
+        });
+        empty.hidden = visible !== 0;
+      });
+    })();
+  </script>
+</body>
+</html>
