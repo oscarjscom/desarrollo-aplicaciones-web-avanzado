@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <%- include('partials/head') %>
+</head>
+<body>
+  <%- include('partials/topbar', { active: 'admin' }) %>
+
+  <main class="wrap" id="contenido">
+    <header class="page-head">
+      <div>
+        <span class="eyebrow"><i class="material-icons" aria-hidden="true">admin_panel_settings</i>Administración</span>
+        <h1>Usuarios registrados</h1>
+        <p>Todos los usuarios de la plataforma, del más reciente al más antiguo. Pulsa "Ver" para abrir la ficha completa.</p>
+      </div>
+    </header>
+
+    <div class="alert alert--error" data-error hidden role="alert"></div>
+
+    <section class="stats reveal" aria-label="Resumen">
+      <div class="stat"><strong data-stat="total">—</strong><span>usuarios en total</span></div>
+      <div class="stat"><strong data-stat="admins">—</strong><span>administradores</span></div>
+      <div class="stat"><strong data-stat="month">—</strong><span>registrados este mes</span></div>
+      <div class="stat"><strong data-stat="avgAge">—</strong><span>edad promedio</span></div>
+    </section>
+
+    <div class="toolbar">
+      <div class="input-wrap">
+        <i class="material-icons lead-icon" aria-hidden="true">search</i>
+        <label for="search" class="sr-only">Buscar usuario</label>
+        <input id="search" type="search" class="browser-default cinput" placeholder="Buscar por nombre, correo o teléfono" maxlength="80" autocomplete="off">
+      </div>
+      <label for="role-filter" class="sr-only">Filtrar por rol</label>
+      <select id="role-filter" class="browser-default cinput">
+        <option value="">Todos los roles</option>
+        <option value="admin">Solo administradores</option>
+        <option value="user">Solo usuarios</option>
+      </select>
+      <span class="muted" data-count role="status" aria-live="polite"></span>
+    </div>
+
+    <div class="table-wrap reveal" style="--d: .1s">
+      <table class="data">
+        <caption class="sr-only">Lista de usuarios registrados</caption>
+        <thead>
+          <tr>
+            <th scope="col">Usuario</th>
+            <th scope="col">Roles</th>
+            <th scope="col">Edad</th>
+            <th scope="col">Teléfono</th>
+            <th scope="col">Registro</th>
+            <th scope="col"><span class="sr-only">Acciones</span></th>
+          </tr>
+        </thead>
+        <tbody data-rows>
+          <tr><td colspan="6"><span class="skeleton" style="width: 60%"></span></td></tr>
+          <tr><td colspan="6"><span class="skeleton" style="width: 45%"></span></td></tr>
+        </tbody>
+      </table>
+      <div class="empty" data-empty hidden>
+        <i class="material-icons" aria-hidden="true">person_search</i>
+        <p>Ningún usuario coincide con la búsqueda.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Ficha de un usuario (modal de Materialize) -->
+  <div id="user-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-name">
+    <div class="modal-content">
+      <div class="modal-head">
+        <span data-modal-avatar></span>
+        <div>
+          <h3 id="modal-name">…</h3>
+          <p class="muted" data-modal-email></p>
+        </div>
+      </div>
+      <div data-modal-roles></div>
+      <dl class="facts" data-modal-facts></dl>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="cbtn cbtn--ghost cbtn--sm modal-close">Cerrar</button>
+    </div>
+  </div>
+
+  <%- include('partials/scripts') %>
+  <script type="module" src="/js/pages/admin.js"></script>
+</body>
+</html>

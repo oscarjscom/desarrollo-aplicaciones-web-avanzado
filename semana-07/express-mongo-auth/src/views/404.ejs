@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <%- include('partials/head') %>
+</head>
+<body>
+  <main class="error-page" id="contenido">
+    <img src="https://images.unsplash.com/photo-1599205940757-25d8edf70348?auto=format&fit=crop&w=1600&q=70"
+         alt="" aria-hidden="true" onerror="this.remove()">
+    <a href="/" class="brand"><span class="brand-mark"><i class="material-icons" aria-hidden="true">vpn_key</i></span>Custodia</a>
+    <div class="error-box reveal">
+      <span class="error-code" aria-hidden="true">404</span>
+      <h1>Esta página no existe</h1>
+      <p>Llegaste a un pasillo sin salida<% if (locals.url) { %>: la ruta <code><%= url %></code> no está en Custodia<% } %>.</p>
+      <div class="error-actions">
+        <a href="/" class="cbtn"><i class="material-icons" aria-hidden="true">home</i>Volver al inicio</a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

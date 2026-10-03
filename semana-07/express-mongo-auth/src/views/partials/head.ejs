@@ -1,0 +1,33 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0a0f">
+<title><%= title %> · Custodia</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗝️</text></svg>">
+<!-- Materialize CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css">
+<% if (locals.auth) { %>
+<script>
+  // Guardia de la página: se ejecuta antes de dibujarla. Sin sesión válida, a /signIn;
+  // con sesión pero sin el rol necesario, a /403. (La API vuelve a comprobarlo todo con el token.)
+  (function () {
+    var roles = <%- JSON.stringify(auth.roles) %>;
+    var token = sessionStorage.getItem('custodia.token');
+    var payload = null;
+    try {
+      var part = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+      payload = JSON.parse(decodeURIComponent(Array.prototype.map.call(atob(part), function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join('')));
+    } catch (e) {}
+    var go = function (url) { document.documentElement.style.visibility = 'hidden'; location.replace(url); };
+    if (!payload || !payload.exp || payload.exp * 1000 <= Date.now()) {
+      sessionStorage.removeItem('custodia.token');
+      go('/signIn?reason=' + (token ? 'expired' : 'auth'));
+    } else if (roles.length && !roles.some(function (r) { return (payload.roles || []).indexOf(r) !== -1; })) {
+      go('/403');
+    }
+  })();
+</script>
+<% } %>

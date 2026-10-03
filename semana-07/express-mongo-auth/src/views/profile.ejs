@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <%- include('partials/head') %>
+</head>
+<body>
+  <%- include('partials/topbar', { active: 'profile' }) %>
+
+  <main class="wrap" id="contenido">
+    <header class="page-head">
+      <div>
+        <span class="eyebrow"><i class="material-icons" aria-hidden="true">manage_accounts</i>Mi cuenta</span>
+        <h1>Tu perfil</h1>
+        <p>Revisa y actualiza tus datos. Cada cambio se valida aquí mismo y otra vez en el servidor.</p>
+      </div>
+    </header>
+
+    <div class="alert alert--error" data-error hidden role="alert"></div>
+
+    <div class="grid-2">
+      <aside class="card profile-side reveal">
+        <span data-avatar-slot><span class="avatar avatar--xl" aria-hidden="true">·</span></span>
+        <h2 data-profile-name>…</h2>
+        <p class="muted" data-profile-email></p>
+        <div data-profile-roles></div>
+        <dl class="facts">
+          <div><dt>Edad</dt><dd data-fact="age">—</dd></div>
+          <div><dt>Miembro desde</dt><dd data-fact="createdAt">—</dd></div>
+          <div><dt>Última actualización</dt><dd data-fact="updatedAt">—</dd></div>
+        </dl>
+      </aside>
+
+      <div>
+        <section class="card reveal" style="--d: .1s" aria-labelledby="datos-titulo">
+          <div class="card-title"><i class="material-icons" aria-hidden="true">edit_note</i><h3 id="datos-titulo">Datos personales</h3></div>
+
+          <form id="profile-form" autocomplete="on">
+            <div class="alert alert--error" data-summary hidden role="alert"></div>
+            <div class="form-grid">
+              <%- include('partials/field', { field: {
+                id: 'name', name: 'name', label: 'Nombre', icon: 'person_outline', required: true, counter: true,
+                autocomplete: 'given-name', attrs: 'minlength="2" maxlength="50" data-rule="name" data-normalize="spaces"'
+              } }) %>
+              <%- include('partials/field', { field: {
+                id: 'lastName', name: 'lastName', label: 'Apellido', icon: 'badge', required: true, counter: true,
+                autocomplete: 'family-name', attrs: 'minlength="2" maxlength="50" data-rule="lastName" data-normalize="spaces"'
+              } }) %>
+              <%- include('partials/field', { field: {
+                id: 'email', name: 'email', label: 'Correo electrónico', type: 'email', icon: 'mail_outline', required: true, span2: true,
+                autocomplete: 'email', attrs: 'maxlength="254" inputmode="email" data-rule="email" data-normalize="email" data-async="email"'
+              } }) %>
+              <%- include('partials/field', { field: {
+                id: 'phoneNumber', name: 'phoneNumber', label: 'Teléfono', type: 'tel', icon: 'phone', required: true,
+                autocomplete: 'tel', hint: 'Entre 7 y 15 dígitos',
+                attrs: 'maxlength="22" inputmode="tel" data-rule="phoneNumber" data-filter="phone" data-normalize="spaces"'
+              } }) %>
+              <%- include('partials/field', { field: {
+                id: 'birthdate', name: 'birthdate', label: 'Fecha de nacimiento', type: 'date', icon: 'cake', required: true,
+                autocomplete: 'bday', attrs: 'data-rule="birthdate"'
+              } }) %>
+              <%- include('partials/field', { field: {
+                id: 'url_profile', name: 'url_profile', label: 'Foto de perfil (URL)', type: 'url', icon: 'image', optional: true, span2: true,
+                placeholder: 'https://…', autocomplete: 'photo', counter: true, hint: 'Enlace a una imagen pública',
+                attrs: 'maxlength="300" inputmode="url" data-rule="url_profile"'
+              } }) %>
+              <%- include('partials/field', { field: {
+                id: 'address', name: 'address', label: 'Dirección', icon: 'home', optional: true, span2: true, counter: true,
+                placeholder: 'Av. Cascanueces 2221, Santa Anita', autocomplete: 'street-address',
+                attrs: 'maxlength="120" data-rule="address" data-normalize="spaces"'
+              } }) %>
+            </div>
+            <button type="submit" class="cbtn"><i class="material-icons" aria-hidden="true">save</i>Guardar cambios</button>
+          </form>
+        </section>
+
+        <section class="card reveal" style="--d: .2s" aria-labelledby="clave-titulo">
+          <div class="card-title"><i class="material-icons" aria-hidden="true">password</i><h3 id="clave-titulo">Cambiar contraseña</h3></div>
+
+          <form id="password-form" autocomplete="on">
+            <div class="alert alert--error" data-summary hidden role="alert"></div>
+            <%- include('partials/field', { field: {
+              id: 'currentPassword', name: 'currentPassword', label: 'Contraseña actual', type: 'password', icon: 'lock_outline',
+              required: true, autocomplete: 'current-password', toggle: true, caps: true, attrs: 'maxlength="64" data-rule="currentPassword"'
+            } }) %>
+            <%- include('partials/field', { field: {
+              id: 'newPassword', name: 'newPassword', label: 'Nueva contraseña', type: 'password', icon: 'lock',
+              required: true, autocomplete: 'new-password', toggle: true, caps: true, passwordBox: true,
+              attrs: 'minlength="8" maxlength="64" data-rule="password"'
+            } }) %>
+            <%- include('partials/field', { field: {
+              id: 'confirmNewPassword', name: 'confirmNewPassword', label: 'Confirmar nueva contraseña', type: 'password', icon: 'lock',
+              required: true, autocomplete: 'new-password', toggle: true, attrs: 'maxlength="64" data-rule="confirm" data-match="newPassword"'
+            } }) %>
+            <button type="submit" class="cbtn cbtn--ghost"><i class="material-icons" aria-hidden="true">vpn_key</i>Actualizar contraseña</button>
+          </form>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <%- include('partials/scripts') %>
+  <script type="module" src="/js/pages/profile.js"></script>
+</body>
+</html>

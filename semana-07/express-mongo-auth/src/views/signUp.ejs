@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <%- include('partials/head') %>
+</head>
+<body>
+  <main class="auth" id="contenido">
+    <aside class="auth-art" aria-hidden="true">
+      <img src="https://images.unsplash.com/photo-1582139329536-e7284fece509?auto=format&fit=crop&w=1400&q=70"
+           alt="" onerror="this.remove()">
+      <a href="/" class="brand" tabindex="-1"><span class="brand-mark"><i class="material-icons">vpn_key</i></span>Custodia</a>
+      <div class="auth-quote reveal">
+        <h2>Tu información, tras una puerta de acero.</h2>
+        <p>Tu contraseña se guarda cifrada con bcrypt: ni siquiera nosotros podemos leerla.</p>
+      </div>
+    </aside>
+
+    <section class="auth-panel">
+      <div class="auth-card auth-card--wide reveal" style="--d: .1s">
+        <span class="eyebrow"><i class="material-icons" aria-hidden="true">person_add</i>Nueva cuenta</span>
+        <h1>Crea tu cuenta</h1>
+        <p class="lead">Completa tus datos. Los campos con <span class="req">*</span> son obligatorios.</p>
+
+        <form id="signup-form" autocomplete="on">
+          <div class="alert alert--error" data-summary hidden role="alert"></div>
+
+          <div class="form-grid">
+            <%- include('partials/field', { field: {
+              id: 'name', name: 'name', label: 'Nombre', icon: 'person_outline', required: true, counter: true,
+              placeholder: 'Ana María', autocomplete: 'given-name', attrs: 'minlength="2" maxlength="50" data-rule="name" data-normalize="spaces" autofocus'
+            } }) %>
+
+            <%- include('partials/field', { field: {
+              id: 'lastName', name: 'lastName', label: 'Apellido', icon: 'badge', required: true, counter: true,
+              placeholder: 'Torres Quispe', autocomplete: 'family-name', attrs: 'minlength="2" maxlength="50" data-rule="lastName" data-normalize="spaces"'
+            } }) %>
+
+            <%- include('partials/field', { field: {
+              id: 'phoneNumber', name: 'phoneNumber', label: 'Teléfono', type: 'tel', icon: 'phone', required: true,
+              placeholder: '+51 987 654 321', autocomplete: 'tel', hint: 'Entre 7 y 15 dígitos',
+              attrs: 'maxlength="22" inputmode="tel" data-rule="phoneNumber" data-filter="phone" data-normalize="spaces"'
+            } }) %>
+
+            <%- include('partials/field', { field: {
+              id: 'birthdate', name: 'birthdate', label: 'Fecha de nacimiento', type: 'date', icon: 'cake', required: true,
+              autocomplete: 'bday', attrs: 'data-rule="birthdate"'
+            } }) %>
+
+            <%- include('partials/field', { field: {
+              id: 'email', name: 'email', label: 'Correo electrónico', type: 'email', icon: 'mail_outline', required: true, span2: true,
+              placeholder: 'nombre@dominio.com', autocomplete: 'email', hint: 'Será tu usuario para iniciar sesión',
+              attrs: 'maxlength="254" inputmode="email" data-rule="email" data-normalize="email" data-async="email"'
+            } }) %>
+
+            <%- include('partials/field', { field: {
+              id: 'password', name: 'password', label: 'Contraseña', type: 'password', icon: 'lock_outline', required: true,
+              placeholder: 'Crea una contraseña segura', autocomplete: 'new-password', toggle: true, caps: true, passwordBox: true, span2: true,
+              attrs: 'minlength="8" maxlength="64" data-rule="password"'
+            } }) %>
+
+            <%- include('partials/field', { field: {
+              id: 'confirmPassword', name: 'confirmPassword', label: 'Confirmar contraseña', type: 'password', icon: 'lock', required: true, span2: true,
+              placeholder: 'Repite la contraseña', autocomplete: 'new-password', toggle: true,
+              attrs: 'maxlength="64" data-rule="confirm" data-match="password"'
+            } }) %>
+          </div>
+
+          <div class="field" data-field="terms">
+            <label for="terms">
+              <input type="checkbox" class="filled-in" id="terms" name="terms" required aria-describedby="terms-msg">
+              <span><span class="label-text">Términos</span>: acepto que mis datos se usen solo para esta práctica de laboratorio.</span>
+            </label>
+            <p class="field-msg" id="terms-msg" aria-live="polite"></p>
+          </div>
+
+          <button type="submit" class="cbtn cbtn--block">
+            <i class="material-icons" aria-hidden="true">how_to_reg</i>Crear mi cuenta
+          </button>
+        </form>
+
+        <p class="auth-foot">¿Ya tienes cuenta? <a href="/signIn">Inicia sesión</a></p>
+      </div>
+    </section>
+  </main>
+
+  <%- include('partials/scripts') %>
+  <script type="module" src="/js/pages/signup.js"></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <%- include('partials/head') %>
+</head>
+<body>
+  <%- include('partials/topbar', { active: 'dashboard' }) %>
+
+  <main class="wrap" id="contenido">
+    <section class="welcome reveal" style="margin-top: 40px;" aria-live="polite">
+      <span data-avatar-slot></span>
+      <div>
+        <span class="eyebrow"><i class="material-icons" aria-hidden="true">dashboard</i>Panel de usuario</span>
+        <h1 data-welcome>Bienvenido</h1>
+        <p>Aquí están tus datos. Puedes cambiarlos cuando quieras desde <a href="/profile">Mi cuenta</a>.</p>
+      </div>
+      <a href="/admin" class="cbtn" data-admin-only hidden><i class="material-icons" aria-hidden="true">admin_panel_settings</i>Ir a Administración</a>
+    </section>
+
+    <div class="alert alert--error" data-error hidden role="alert" style="margin-top: 22px;"></div>
+
+    <section style="margin-top: 30px;" aria-labelledby="mis-datos">
+      <h2 id="mis-datos" class="sr-only">Mis datos</h2>
+      <dl class="tiles" data-tiles>
+        <% for (let i = 0; i < 6; i++) { %>
+          <div class="tile"><span class="skeleton" style="width: 40%"></span><span class="skeleton" style="width: 80%; margin-top: 14px"></span></div>
+        <% } %>
+      </dl>
+    </section>
+
+    <section class="card reveal" style="margin-top: 30px; --d: .2s">
+      <div class="card-title"><i class="material-icons" aria-hidden="true">verified_user</i><h3>Tu sesión</h3></div>
+      <p class="muted">Tu acceso está protegido con un token JWT que vence a las <strong data-expires>—</strong>.
+        Cuando venza, la sesión se cerrará sola y tendrás que volver a iniciar sesión.</p>
+    </section>
+  </main>
+
+  <%- include('partials/scripts') %>
+  <script type="module" src="/js/pages/dashboard.js"></script>
+</body>
+</html>

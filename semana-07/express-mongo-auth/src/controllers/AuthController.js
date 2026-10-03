@@ -4,11 +4,7 @@ class AuthController {
 
     async signUp(req, res, next) {
         try {
-            const payload = req.body;
-            if (!payload.email || !payload.password)
-                return res.status(400).json({ message: 'El email y password son requeridos' });
-
-            const user = await authService.signUp(payload);
+            const user = await authService.signUp(req.body);
             return res.status(201).json(user);
         } catch (err) {
             next(err);
@@ -17,13 +13,17 @@ class AuthController {
 
     async signIn(req, res, next) {
         try {
-            const { email, password } = req.body;
-
-            if (!email || !password)
-                return res.status(400).json({ message: 'El email y password son requeridos' });
-
-            const token = await authService.signIn({ email, password });
+            const token = await authService.signIn(req.body);
             return res.status(200).json(token);
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    async emailAvailable(req, res, next) {
+        try {
+            const available = await authService.isEmailAvailable(req.body?.email);
+            return res.status(200).json({ available });
         } catch (err) {
             next(err);
         }

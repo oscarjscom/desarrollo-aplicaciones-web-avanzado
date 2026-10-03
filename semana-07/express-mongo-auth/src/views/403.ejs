@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <%- include('partials/head') %>
+</head>
+<body>
+  <main class="error-page" id="contenido">
+    <img src="https://images.unsplash.com/photo-1521159936751-ff7c25fd187b?auto=format&fit=crop&w=1600&q=70"
+         alt="" aria-hidden="true" onerror="this.remove()">
+    <a href="/" class="brand"><span class="brand-mark"><i class="material-icons" aria-hidden="true">vpn_key</i></span>Custodia</a>
+    <div class="error-box reveal">
+      <span class="error-code" aria-hidden="true">403</span>
+      <h1>Acceso denegado</h1>
+      <p>Esta puerta está cerrada para tu cuenta: no tienes el rol necesario para ver esta página.</p>
+      <div class="error-actions">
+        <a href="/" class="cbtn"><i class="material-icons" aria-hidden="true">dashboard</i>Ir a mi panel</a>
+        <a href="/signIn" class="cbtn cbtn--ghost" data-switch-account>Entrar con otra cuenta</a>
+      </div>
+    </div>
+  </main>
+  <script type="module">
+    import { logout } from '/js/session.js';
+    document.querySelector('[data-switch-account]').addEventListener('click', (e) => { e.preventDefault(); logout('switch'); });
+  </script>
+</body>
+</html>

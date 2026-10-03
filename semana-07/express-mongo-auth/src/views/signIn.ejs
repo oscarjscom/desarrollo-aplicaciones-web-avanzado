@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <%- include('partials/head') %>
+</head>
+<body>
+  <main class="auth" id="contenido">
+    <aside class="auth-art" aria-hidden="true">
+      <img src="https://images.unsplash.com/photo-1550527882-b71dea5f8089?auto=format&fit=crop&w=1400&q=70"
+           alt="" onerror="this.remove()">
+      <a href="/" class="brand" tabindex="-1"><span class="brand-mark"><i class="material-icons">vpn_key</i></span>Custodia</a>
+      <div class="auth-quote reveal">
+        <h2>Cada acceso, custodiado.</h2>
+        <p>Tu llave es tu cuenta: entra con tu correo y contraseña, y nosotros cuidamos el resto con un token firmado.</p>
+      </div>
+    </aside>
+
+    <section class="auth-panel">
+      <div class="auth-card reveal" style="--d: .1s">
+        <span class="eyebrow"><i class="material-icons" aria-hidden="true">lock_open</i>Acceso seguro</span>
+        <h1>Bienvenido de nuevo</h1>
+        <p class="lead">Inicia sesión para entrar a tu panel.</p>
+
+        <div class="alert alert--info" data-reason hidden role="status"></div>
+
+        <form id="signin-form" autocomplete="on">
+          <div class="alert alert--error" data-summary hidden role="alert"></div>
+
+          <%- include('partials/field', { field: {
+            id: 'email', name: 'email', label: 'Correo electrónico', type: 'email', icon: 'mail_outline', required: true,
+            placeholder: 'nombre@dominio.com', autocomplete: 'username', attrs: 'maxlength="254" data-rule="email" data-normalize="email" inputmode="email" autofocus'
+          } }) %>
+
+          <%- include('partials/field', { field: {
+            id: 'password', name: 'password', label: 'Contraseña', type: 'password', icon: 'lock_outline', required: true,
+            placeholder: 'Tu contraseña', autocomplete: 'current-password', toggle: true, caps: true,
+            attrs: 'maxlength="64" data-rule="loginPassword"'
+          } }) %>
+
+          <button type="submit" class="cbtn cbtn--block">
+            <i class="material-icons" aria-hidden="true">login</i>Iniciar sesión
+          </button>
+        </form>
+
+        <p class="auth-foot">¿Aún no tienes cuenta? <a href="/signUp">Crea una aquí</a></p>
+      </div>
+    </section>
+  </main>
+
+  <%- include('partials/scripts') %>
+  <script type="module" src="/js/pages/signin.js"></script>
+</body>
+</html>

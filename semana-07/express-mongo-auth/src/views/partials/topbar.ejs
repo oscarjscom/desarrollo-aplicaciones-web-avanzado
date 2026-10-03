@@ -1,0 +1,23 @@
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="/" class="brand"><span class="brand-mark"><i class="material-icons" aria-hidden="true">vpn_key</i></span>Custodia</a>
+
+    <div class="topnav" role="navigation" aria-label="Principal">
+      <a href="/dashboard" <%- active === 'dashboard' ? 'aria-current="page"' : '' %>>Mi panel</a>
+      <a href="/profile" <%- active === 'profile' ? 'aria-current="page"' : '' %>>Mi cuenta</a>
+      <a href="/admin" data-admin-only hidden <%- active === 'admin' ? 'aria-current="page"' : '' %>>Administración</a>
+    </div>
+
+    <div class="user-chip">
+      <div class="who">
+        <strong data-session-name>…</strong>
+        <small data-session-role></small>
+      </div>
+      <span class="avatar" data-session-avatar aria-hidden="true"></span>
+      <button type="button" class="cbtn cbtn--ghost cbtn--sm" data-logout>
+        <i class="material-icons" aria-hidden="true">logout</i>Salir
+      </button>
+    </div>
+  </div>
+</header>

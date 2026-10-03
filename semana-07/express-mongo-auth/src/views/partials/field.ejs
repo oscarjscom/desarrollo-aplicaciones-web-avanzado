@@ -1,0 +1,47 @@
+<%
+  // Campo de formulario reutilizable. Las restricciones HTML5 van en el propio <input>;
+  // las reglas finas (data-rule) las aplica /js/forms.js con /shared/rules.js.
+  const f = Object.assign({
+    type: 'text', icon: '', required: false, optional: false, hint: '', counter: false, toggle: false,
+    placeholder: '', autocomplete: 'off', attrs: '', span2: false, multiline: false, passwordBox: false, caps: false
+  }, field);
+  const describedBy = [f.id + '-msg', f.hint ? f.id + '-hint' : '', f.caps ? f.id + '-caps' : ''].filter(Boolean).join(' ');
+%>
+<div class="field<%= f.span2 ? ' span-2' : '' %>" data-field="<%= f.name %>">
+  <label class="field-label" for="<%= f.id %>">
+    <span><span class="label-text"><%= f.label %></span><% if (f.required) { %> <span class="req" aria-hidden="true">*</span><% } %></span>
+    <% if (f.optional) { %><span class="optional">Opcional</span><% } %>
+  </label>
+  <div class="input-wrap<%= f.toggle ? ' has-toggle' : '' %>">
+    <% if (f.icon) { %><i class="material-icons lead-icon" aria-hidden="true"><%= f.icon %></i><% } %>
+    <% if (f.multiline) { %>
+      <textarea id="<%= f.id %>" name="<%= f.name %>" class="browser-default cinput<%= f.icon ? '' : ' no-icon' %>"
+        placeholder="<%= f.placeholder %>" autocomplete="<%= f.autocomplete %>" aria-describedby="<%= describedBy %>"
+        <%- f.required ? 'required' : '' %> <%- f.attrs %>></textarea>
+    <% } else { %>
+      <input id="<%= f.id %>" name="<%= f.name %>" type="<%= f.type %>" class="browser-default cinput<%= f.icon ? '' : ' no-icon' %>"
+        placeholder="<%= f.placeholder %>" autocomplete="<%= f.autocomplete %>" aria-describedby="<%= describedBy %>"
+        <%- f.required ? 'required' : '' %> <%- f.attrs %>>
+    <% } %>
+    <i class="material-icons state-icon" aria-hidden="true"></i>
+    <% if (f.toggle) { %>
+      <button type="button" class="toggle-pass" data-toggle-password="<%= f.id %>" aria-pressed="false" aria-label="Mostrar contraseña">
+        <i class="material-icons" aria-hidden="true">visibility</i>
+      </button>
+    <% } %>
+  </div>
+  <% if (f.caps) { %>
+    <p class="caps-warning" id="<%= f.id %>-caps" data-caps-for="<%= f.id %>" role="status"><i class="material-icons" aria-hidden="true">keyboard_capslock</i>Bloq Mayús está activado</p>
+  <% } %>
+  <p class="field-msg" id="<%= f.id %>-msg" aria-live="polite"></p>
+  <% if (f.hint || f.counter) { %>
+    <div class="field-hint"><span id="<%= f.id %>-hint"><%= f.hint %></span><% if (f.counter) { %><span class="counter" id="<%= f.id %>-count" aria-hidden="true"></span><% } %></div>
+  <% } %>
+</div>
+<% if (f.passwordBox) { %>
+<div class="pass-box<%= f.span2 ? ' span-2' : '' %>" data-password-box="<%= f.id %>">
+  <div class="meter" data-level="0" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+  <p class="meter-label" aria-live="polite">Seguridad de la contraseña: <strong>—</strong></p>
+  <ul class="checklist" aria-label="Requisitos de la contraseña"></ul>
+</div>
+<% } %>
