@@ -34,7 +34,7 @@
 | [Semana 05](semana-05) | APIs RESTful | Tickets y notificaciones en capas · errores, paginación y correos | Completado |
 | [Semana 06](semana-06) | Bases de datos NoSQL | MongoDB con Mongoose · CRUD de posts y perfil de autor | Completado |
 | [Semana 07](semana-07) | Seguridad con JWT | Registro, inicio de sesión, roles y validación en cliente y servidor | Completado |
-| Semana 08 | — | — | Pendiente |
+| [Semana 08](semana-08) | Despliegue de aplicaciones | MongoDB Atlas, Render y CI/CD con GitHub Actions · API con JWT en la nube | Completado |
 | Semana 09 | — | — | Pendiente |
 | Semana 10 | — | — | Pendiente |
 | Semana 11 | — | — | Pendiente |
