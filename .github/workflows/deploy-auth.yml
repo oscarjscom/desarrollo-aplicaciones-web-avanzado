@@ -1,0 +1,24 @@
+name: Deploy API con JWT a Render
+
+on:
+  push:
+    branches:
+      - main
+    # Solo se despliega si cambia el proyecto de la semana 7 (el repositorio guarda todas las semanas)
+    paths:
+      - 'semana-07/express-mongo-auth/**'
+      - '.github/workflows/deploy-auth.yml'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Trigger Render deploy
+        run: |
+          curl -X POST "$RENDER_DEPLOY_HOOK_AUTH_URL"
+        env:
+          RENDER_DEPLOY_HOOK_AUTH_URL: ${{ secrets.RENDER_DEPLOY_HOOK_AUTH_URL }}
