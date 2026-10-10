@@ -1,0 +1,24 @@
+name: Deploy to Render
+
+on:
+  push:
+    branches:
+      - main
+    # El repositorio guarda todas las semanas: solo se despliega si cambia este proyecto
+    paths:
+      - 'semana-08/express-mongo-cloud/**'
+      - '.github/workflows/deploy.yml'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Trigger Render deploy
+        run: |
+          curl -X POST "$RENDER_DEPLOY_HOOK_URL"
+        env:
+          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
