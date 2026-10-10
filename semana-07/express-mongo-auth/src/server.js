@@ -33,7 +33,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 
 // Validar estado del servidor
-app.get('/health', (req, res) => res.status(200).json({ ok: true }));
+app.get('/health', (req, res) => res.status(200).json({ ok: true, uptime: Math.round(process.uptime()) }));
 
 // Rutas de la API que no existen: respuesta JSON
 app.use('/api', (req, res) => res.status(404).json({ message: 'Ruta no encontrada' }));
