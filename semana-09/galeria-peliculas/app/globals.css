@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+/* =====================================================================
+   Kinetic Typography · tokens de diseño (un solo lugar para toda la app)
+   Negro rico + blanco hueso + un único acento ácido. Sin gradientes ni sombras.
+   ===================================================================== */
+@theme {
+  --color-k-bg: #09090b;
+  --color-k-fg: #fafafa;
+  --color-k-muted: #27272a;
+  --color-k-muted-fg: #a1a1aa;
+  --color-k-accent: #dfe104;
+  --color-k-border: #3f3f46;
+
+  --font-sans: var(--font-space-grotesk), "Inter", system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-k-bg);
+  color: var(--color-k-fg);
+  font-family: var(--font-sans);
+  font-weight: 500;
+}
+
+/* Selección: fondo amarillo y texto negro */
+::selection {
+  background: var(--color-k-accent);
+  color: #000;
+}
+
+/* Foco visible y obvio en todos los elementos interactivos */
+:focus-visible {
+  outline: 3px solid var(--color-k-accent);
+  outline-offset: 3px;
+}
+
+/* Textura de ruido tipo cartel impreso (feTurbulence), casi invisible */
+.k-noise::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  pointer-events: none;
+  opacity: 0.03;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Ctitle%3ETextura de ruido%3C/title%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Marquesinas infinitas: la pista lleva el contenido duplicado y se desplaza la mitad */
+@keyframes k-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.k-marquee-track {
+  animation: k-marquee 30s linear infinite;
+  will-change: transform;
+}
+
+/* Quien prefiere menos movimiento ve el contenido quieto */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .k-marquee-track {
+    animation: none;
+  }
+  .k-motion {
+    animation: none !important;
+    transition: none !important;
+  }
+}
