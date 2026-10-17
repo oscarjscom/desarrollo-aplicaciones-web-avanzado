@@ -80,6 +80,8 @@ La versión actual de Next.js activa por defecto `cacheComponents` y `partialPre
 ## Tarea · Galería de Películas y Series (CINE/KINETIC)
 API de [OMDb](https://www.omdbapi.com). Código en [`galeria-peliculas`](galeria-peliculas); su [README](galeria-peliculas/README.md) explica la estructura y el diseño.
 
+**Aplicación en línea (Vercel):** <https://galeria-peliculas-three.vercel.app>
+
 | Requisito | Cómo se cumple |
 |---|---|
 | Página principal en **SSR** | `app/page.tsx` es una página `async` con `force-dynamic`: 12 títulos populares traídos en el servidor |
