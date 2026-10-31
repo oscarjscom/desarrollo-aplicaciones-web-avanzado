@@ -1,12 +1,18 @@
-# Dashboard de proyectos con shadcn/ui
+# Portal · Gestión de proyectos
 
-Ejercicio 2 del laboratorio de la semana 11. Usa componentes de [shadcn/ui](https://ui.shadcn.com) (Radix UI y Tailwind CSS), copiados dentro del proyecto en `src/components/ui`.
+Aplicación de proyectos, equipo y tareas hecha con [shadcn/ui](https://ui.shadcn.com) (Radix UI y Tailwind CSS) y los componentes copiados en `src/components/ui`. Los datos viven en memoria.
 
-| Archivo | Qué hace |
+En línea: <https://portal-proyectos-delta.vercel.app>
+
+| Sección | Archivo |
 |---|---|
-| `src/app/dashboard/page.tsx` | Dashboard con pestañas: Resumen, Proyectos, Tareas, Equipo y Configuración |
-| `src/components/ProjectForm.tsx` | Formulario de nuevo proyecto en un diálogo |
-| `src/components/TasksTable.tsx` | Tabla de tareas |
+| Resumen (métricas y calendario de entregas) | `src/components/app/SummaryTab.tsx` |
+| Proyectos (crear, detalles, editar, eliminar) | `src/components/app/ProjectsTab.tsx`, `ProjectDialog.tsx` |
+| Tareas (CRUD y paginación) | `src/components/app/TasksTab.tsx`, `TaskDialog.tsx` |
+| Equipo (CRUD y paginación) | `src/components/app/TeamTab.tsx`, `MemberDialog.tsx` |
+| Configuración | `src/components/app/SettingsTab.tsx` |
+| Validación compartida (cliente y servidor) | `src/lib/validation.ts`, `src/app/actions.ts` |
+| Datos en memoria | `src/lib/store.tsx`, `src/lib/seed.ts` |
 
 ## Ejecutar
 ```bash
