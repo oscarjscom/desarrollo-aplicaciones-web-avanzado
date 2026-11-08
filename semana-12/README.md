@@ -1,7 +1,7 @@
 <div align="center">
 
 # Semana 12 — APIs integradas
-**Laboratorio 12 · API Routes con App Router, Prisma y Supabase**
+**Laboratorio 12 · API Routes con App Router, Prisma y Supabase · Tarea: búsqueda, estadísticas y páginas de la biblioteca**
 
 [Volver al inicio](../README.md)
 
@@ -12,9 +12,11 @@
 ## Contenido
 | Proyecto | Tipo | Descripción |
 |---|---|---|
-| [`next-api-routes`](next-api-routes) | Laboratorio | Sistema de biblioteca: API Routes de autores y libros con Prisma y PostgreSQL en Supabase |
+| [`next-api-routes`](next-api-routes) | Laboratorio y Tarea | Sistema de biblioteca: API Routes de autores y libros (laboratorio) y, sobre el mismo proyecto, búsqueda con paginación, estadísticas y las páginas que consumen la API (tarea) |
 
-Stack: **Next.js 16 (App Router, Turbopack) · React 19 · TypeScript · Prisma 6 (ORM) · PostgreSQL en Supabase · ESLint**.
+**Aplicación en línea (Vercel): <https://biblioteca-api-routes.vercel.app>**
+
+Stack: **Next.js 16 (App Router, Turbopack) · React 19 · TypeScript · Tailwind CSS 4 · Prisma 6 (ORM) · PostgreSQL en Supabase · ESLint**.
 
 ---
 
@@ -54,16 +56,55 @@ Cada captura muestra la petición y la respuesta real del servidor local.
 
 ---
 
+## Tarea · Búsqueda, estadísticas y páginas
+
+### Requisitos
+| Requisito | Cómo se cumple |
+|---|---|
+| `GET /api/books/search` con paginación | `src/app/api/books/search/route.ts`: `search` (título, parcial y sin distinguir mayúsculas), `genre` (exacto), `authorName` (parcial), `page` (por defecto 1), `limit` (por defecto 10, máximo 50), `sortBy` (`title`, `publishedYear`, `createdAt`) y `order` (`asc`, `desc`). Responde `data` y `pagination` (`page`, `limit`, `total`, `totalPages`, `hasNext`, `hasPrev`). Un valor inválido responde `400` |
+| `GET /api/authors/[id]/stats` | `src/app/api/authors/[id]/stats/route.ts`: total de libros, primer y último libro, promedio de páginas, géneros únicos, libro más extenso y más corto |
+| Dashboard `app/page.tsx` | Crear, listar, editar y eliminar autores, botón **Ver libros** y estadísticas generales (`GET /api/stats`) |
+| Libros `app/books/page.tsx` | Formulario con selector de autor, búsqueda en tiempo real, filtros por género y autor, orden, paginación, total de resultados, estados de carga, editar y eliminar, diseño responsive |
+| Detalle `app/authors/[id]/page.tsx` | Información del autor, estadísticas, sus libros, formulario para editar y botón para agregar un libro |
+
+Además de lo pedido, `/api/books/search` acepta `authorId` (lo usa el desplegable de autores) y `GET /api/stats` entrega los totales y los géneros que alimentan el dashboard y el filtro de géneros.
+
+**Validación en el cliente y en el servidor.** Las mismas reglas (`src/lib/validation.ts`) se aplican en los formularios del navegador y otra vez en las API Routes. Si el navegador detecta un error no se hace la petición; si el servidor rechaza un dato (por ejemplo un email o un ISBN repetido) el mensaje aparece en el campo correspondiente.
+
+### Pruebas de los endpoints
+<table><tr><td align="center"><img src="capturas/A12_get_search.jpg" width="460"><br><sub>GET /api/books/search · ejemplo del enunciado</sub></td><td align="center"><img src="capturas/A12b_get_search_autor.jpg" width="460"><br><sub>GET /api/books/search · por título y autor, 3 por página</sub></td></tr><tr><td align="center"><img src="capturas/A13_get_search_paginado.jpg" width="460"><br><sub>GET /api/books/search · página 2, 5 por página, por título</sub></td><td align="center"><img src="capturas/A14_get_stats_autor.jpg" width="460"><br><sub>GET /api/authors/[id]/stats · estadísticas del autor</sub></td></tr></table>
+
+### Capturas de la aplicación
+**Autores**
+<table><tr><td align="center"><img src="capturas/01_dashboard.jpg" width="460"><br><sub>Dashboard: estadísticas generales y lista de autores</sub></td><td align="center"><img src="capturas/02_autor_validacion.jpg" width="460"><br><sub>Nuevo autor: validación en el cliente</sub></td></tr><tr><td align="center"><img src="capturas/03_autor_formulario.jpg" width="460"><br><sub>Nuevo autor: formulario completo</sub></td><td align="center"><img src="capturas/04_autor_creado.jpg" width="460"><br><sub>Autor creado</sub></td></tr><tr><td align="center"><img src="capturas/05_autor_email_repetido.jpg" width="460"><br><sub>Email repetido: lo rechaza el servidor (409)</sub></td><td align="center"><img src="capturas/06_autor_editar.jpg" width="460"><br><sub>Editar autor</sub></td></tr><tr><td align="center"><img src="capturas/07_autor_eliminar_confirmacion.jpg" width="460"><br><sub>Confirmación para eliminar</sub></td><td align="center"><img src="capturas/08_autor_eliminado.jpg" width="460"><br><sub>Autor eliminado</sub></td></tr></table>
+
+**Libros**
+<table><tr><td align="center"><img src="capturas/09_libros.jpg" width="460"><br><sub>Libros: filtros, orden y resultados</sub></td><td align="center"><img src="capturas/10_busqueda_tiempo_real.jpg" width="460"><br><sub>Búsqueda en tiempo real</sub></td></tr><tr><td align="center"><img src="capturas/11_sin_resultados.jpg" width="460"><br><sub>Sin resultados</sub></td><td align="center"><img src="capturas/12_filtro_genero.jpg" width="460"><br><sub>Filtro por género</sub></td></tr><tr><td align="center"><img src="capturas/13_filtro_autor.jpg" width="460"><br><sub>Filtro por autor</sub></td><td align="center"><img src="capturas/14_orden_titulo.jpg" width="460"><br><sub>Orden por título ascendente</sub></td></tr><tr><td align="center"><img src="capturas/15_paginacion.jpg" width="460"><br><sub>Paginación (5 por página, página 2)</sub></td><td align="center"><img src="capturas/16_cargando.jpg" width="460"><br><sub>Estado de carga durante la búsqueda</sub></td></tr><tr><td align="center"><img src="capturas/17_libro_validacion.jpg" width="460"><br><sub>Nuevo libro: validación en el cliente</sub></td><td align="center"><img src="capturas/18_libro_formulario.jpg" width="460"><br><sub>Nuevo libro: formulario completo con selector de autor</sub></td></tr><tr><td align="center"><img src="capturas/19_libro_creado.jpg" width="460"><br><sub>Libro creado</sub></td><td align="center"><img src="capturas/20_libro_isbn_repetido.jpg" width="460"><br><sub>ISBN repetido: lo rechaza el servidor (409)</sub></td></tr><tr><td align="center"><img src="capturas/21_libro_editar.jpg" width="460"><br><sub>Editar libro</sub></td><td align="center"><img src="capturas/22_libro_eliminar_confirmacion.jpg" width="460"><br><sub>Confirmación para eliminar</sub></td></tr></table>
+
+**Detalle del autor**
+<table><tr><td align="center"><img src="capturas/23_autor_detalle.jpg" width="460"><br><sub>Detalle del autor: datos, estadísticas y libros</sub></td><td align="center"><img src="capturas/24_autor_agregar_libro.jpg" width="460"><br><sub>Agregar un libro a este autor</sub></td></tr><tr><td align="center"><img src="capturas/25_autor_editar.jpg" width="460"><br><sub>Editar la información del autor</sub></td><td align="center"><img src="capturas/26_autor_no_encontrado.jpg" width="460"><br><sub>Autor que no existe</sub></td></tr></table>
+
+**Vista móvil**
+<table><tr>
+<td align="center"><img src="capturas/27_movil_autores.jpg" width="220"><br><sub>Autores</sub></td>
+<td align="center"><img src="capturas/28_movil_libros.jpg" width="220"><br><sub>Libros</sub></td>
+<td align="center"><img src="capturas/29_movil_detalle.jpg" width="220"><br><sub>Detalle del autor</sub></td>
+</tr></table>
+
+---
+
 ## Cómo ejecutarlo
 ```bash
 cd next-api-routes
 npm install
 cp .env.example .env    # completar DATABASE_URL con la cadena de Supabase (Session pooler)
 npx prisma db push      # crea las tablas
+npm run seed            # opcional: carga 3 autores y 10 libros de ejemplo
 npm run dev             # http://localhost:3000
 npm run build
 ```
 
 ## Notas
+- `npm run seed` (`prisma/seed.mjs`) carga autores y libros de ejemplo; se puede ejecutar varias veces sin duplicar datos.
 - En Next.js 16 el parámetro `params` de las rutas dinámicas es una promesa, por eso los endpoints con `[id]` lo esperan con `await params`.
-- El script `build` ejecuta `prisma generate` antes de compilar.
+- Variable de entorno `DATABASE_URL`: en Vercel se configura en **Settings → Environment Variables**; el script `build` ejecuta `prisma generate` antes de compilar.
