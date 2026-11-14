@@ -3,6 +3,12 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import Image from 'next/image';
 
+const providerNames: Record<string, string> = {
+  google: 'Google',
+  github: 'GitHub',
+  credentials: 'Correo y contraseña',
+};
+
 export default async function ProfilePage() {
   const session = await getServerSession(authOptions);
 
@@ -24,6 +30,12 @@ export default async function ProfilePage() {
             </p>
             <p className="text-gray-700 mb-2">
               Email: <span className="font-semibold">{session?.user?.email}</span>
+            </p>
+            <p className="text-gray-700 mb-2">
+              Inicio de sesión con:{' '}
+              <span className="font-semibold">
+                {providerNames[session.provider ?? ''] ?? session.provider}
+              </span>
             </p>
             {session?.user?.image && (
               <>

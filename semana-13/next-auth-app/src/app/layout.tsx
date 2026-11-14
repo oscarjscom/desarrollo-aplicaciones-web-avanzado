@@ -46,6 +46,20 @@ export default async function RootLayout({
                   Dashboard
                 </Link>
               </li>
+              {!session?.user && (
+                <>
+                  <li>
+                    <Link href="/signIn" className="hover:text-gray-300">
+                      Iniciar sesión
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/register" className="hover:text-gray-300">
+                      Registrarse
+                    </Link>
+                  </li>
+                </>
+              )}
               {session?.user && (
                 <li>
                   <Link href="/profile" className="hover:text-gray-300">
