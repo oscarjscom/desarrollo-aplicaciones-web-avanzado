@@ -6,15 +6,16 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: '*',
-        allow: '/',
+        allow: ['/', '/contact'],
         disallow: ['/api/', '/admin/', '/_next/'],
       },
       {
         userAgent: 'Googlebot',
-        allow: '/',
+        allow: ['/', '/contact'],
         disallow: ['/api/', '/admin/'],
       },
     ],
     sitemap: `${personalInfo.siteUrl}/sitemap.xml`,
+    host: personalInfo.siteUrl,
   };
 }
