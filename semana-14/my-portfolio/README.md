@@ -1,6 +1,6 @@
 # my-portfolio · Portafolio personal con SEO
 
-Portafolio hecho con Next.js (https://oscarjscom.duckdns.org), con meta tags dinámicos, Open Graph, imágenes optimizadas, `sitemap.xml` y `robots.txt`.
+Portafolio hecho con Next.js (https://oscarjscom.me), con meta tags dinámicos, Open Graph, imágenes optimizadas, `sitemap.xml` y `robots.txt`.
 
 | Parte | Archivos |
 |---|---|

@@ -65,6 +65,6 @@ export const personalInfo = {
   description:
     'Estudiante de Tecsup que crea aplicaciones web modernas con Next.js, React y bases de datos en la nube',
   github: 'https://github.com/oscarjscom',
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://oscarjscom.duckdns.org',
+  siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://oscarjscom.me',
   avatar: 'https://avatars.githubusercontent.com/u/229425953?v=4',
 };
