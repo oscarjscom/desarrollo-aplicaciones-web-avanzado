@@ -4,7 +4,7 @@
 
 # Desarrollo de Aplicaciones Web Avanzado
 
-**Laboratorios del curso · Node.js, Express y MongoDB**
+**Laboratorios del curso · Node.js, Express, MongoDB y Next.js**
 
 ![Node.js](https://img.shields.io/badge/Node.js-22-5FA04E?logo=nodedotjs&logoColor=white)
 ![Express](https://img.shields.io/badge/Express-4%20%2F%205-000000?logo=express&logoColor=white)
@@ -35,12 +35,12 @@
 | [Semana 06](semana-06) | Bases de datos NoSQL | MongoDB con Mongoose · CRUD de posts y perfil de autor | Completado |
 | [Semana 07](semana-07) | Seguridad con JWT | Registro, inicio de sesión, roles y validación en cliente y servidor | Completado |
 | [Semana 08](semana-08) | Despliegue de aplicaciones | MongoDB Atlas, Render y CI/CD con GitHub Actions · API con JWT en la nube | Completado |
-| Semana 09 | — | — | Pendiente |
-| Semana 10 | — | — | Pendiente |
-| Semana 11 | — | — | Pendiente |
-| Semana 12 | — | — | Pendiente |
-| Semana 13 | — | — | Pendiente |
-| Semana 14 | — | — | Pendiente |
+| [Semana 09](semana-09) | Introducción a Next.js | CSR contra SSR con PokeAPI y Open-Meteo · galería de películas y series con OMDb | Completado |
+| [Semana 10](semana-10) | Enrutamiento y páginas | Pokédex con App Router (SSG e ISR) · Rick and Morty con rutas estáticas y dinámicas | Completado |
+| [Semana 11](semana-11) | Componentes y estilización | CSS Modules, Tailwind CSS y shadcn/ui · portal de proyectos | Completado |
+| [Semana 12](semana-12) | APIs integradas | API Routes con Prisma y Supabase · biblioteca con búsqueda, estadísticas y páginas | Completado |
+| [Semana 13](semana-13) | Autenticación y seguridad | NextAuth.js con Google y GitHub · credenciales con bcrypt, registro y bloqueo por intentos | Completado |
+| [Semana 14](semana-14) | Optimización y SEO | Portafolio con meta tags, imágenes optimizadas, sitemap y robots · contacto y dominio [oscarjscom.me](https://oscarjscom.me) | Completado |
 | Semana 15 | — | — | Pendiente |
 | Semana 16 | — | — | Pendiente |
 
